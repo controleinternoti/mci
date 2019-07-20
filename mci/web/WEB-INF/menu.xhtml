@@ -49,39 +49,10 @@
 
                     <pu:menu widgetVar="me">
                         <p:menuitem  style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="um_dashboard" value="Dashboard" icon="dashboard" outcome="/sistema/dashboard"/>
-                        <p:submenu style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="cadastro" label="Cadastros" icon="queue">
-                            <p:menuitem id="cadastro_computador" value="Computador" icon="desktop_windows" outcome="/sistema/computador" />                                    
-                            <p:menuitem id="cadastro_email" value="Email" icon="email" outcome="/sistema/email" />
-                            <p:menuitem id="cadastro_servidor" value="Servidor" icon="storage" outcome="/sistema/servidor" />                           
-                            <p:menuitem id="cadastro_marca" value="Marca" icon="local_offer" outcome="/sistema/marca"/>
-                            <p:submenu id="cadastro_ips" label="Lista de IPs" icon="filter_1" >
-                                <p:menuitem id="cadastro_ip" value="IP" icon="description" outcome="/sistema/ip" />
-                            </p:submenu>
-                            <p:submenu id="cadastro_licenca" label="Licenças" icon="card_membership" >
-                                <p:menuitem id="cadastro_open_license" value="Open License" icon="vpn_key" outcome="/sistema/openLicense" />                               
-                                <p:menuitem id="cadastro_computador_software" value="PC + Software" icon="devices_other" outcome="/sistema/computadorSoftware" />
-                                <p:menuitem id="cadastro_tipo_licenca" value="Descrição Licença" icon="security" outcome="/sistema/tipoLicenca" />
-                            </p:submenu>
-                            <p:submenu id="cadastro_software" label="Software" icon="flag" >
-                                <p:menuitem id="cadastro_software_1" value="Software" icon="filter_frames" outcome="/sistema/software" />
-                                <p:menuitem id="cadastro_tipo_software" value="Tipo de Software" icon="album" outcome="/sistema/tipoSoftware" />
-                                <p:menuitem id="cadastro_descricao_serial" value="Descrição Software" icon="library_books" outcome="/sistema/descricaoSoftware" />
-                            </p:submenu>
-                        </p:submenu>
+                        <p:menuitem  style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="cadastro" value="Cadastro" icon="dashboard" outcome="/sistema/cadastro"/>
+                        <p:menuitem  style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="termo_aceite" value="Termo de Aceite" icon="dashboard" outcome="/sistema/termoAceite"/>
 
-                        <p:submenu style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}"  id="um_relatorio" label="Relatórios" icon="&#xE5D2;">
-                            <p:menuitem id="rel_licenca_disponivel" value="Licença Disponível" icon="subject" outcome="/sistema/relatorioLicencaDisponivel" />
-                            <p:menuitem id="rel_computador_software" value="Computador e Software" icon="subject" outcome="/sistema/relatorioComputadorSoftware" />
-                            <p:menuitem id="rel_pedido_compra_ti" value="Pedido de Compra TI" icon="subject" outcome="/sistema/relatorioPedidoCompraTI" />
-                            <p:submenu id="um_rel_nivel1" label="Faixa de IPs" icon="&#xE8D2;">
-                                <p:submenu id="um_sm11" label="IP" icon="subject;">
-                                    <p:menuitem id="rel_ip" value="IP" icon="subject" outcome="/sistema/ip"/>
-                                </p:submenu>
-                                <p:submenu id="um_rel_nivel2" label="Teste" icon="subject">
-                                    <p:menuitem id="um_teste" value="Teste" icon="subject" url="#" />
-                                </p:submenu>
-                            </p:submenu>
-                        </p:submenu>
+                        
 
                         <p:submenu id="um_customization" label="Customização" icon="&#xE8B8;" styleClass="amber-badge">
                             <f:attribute name="badge" value="10" />

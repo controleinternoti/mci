@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Termo de Aceite</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card card-w-title">
+                            <h1>Termo de Aceite</h1>
+
+
+                            <p:panel header="Panel">
+                                LEI Nº 12.965, DE 23 DE ABRIL DE 2014.
+
+                                CAPÍTULO I 
+                                DISPOSIÇÕES PRELIMINARES
+
+                                Art. 1º Esta Lei estabelece princípios, garantias, direitos e deveres para o uso da internet no Brasil e determina as diretrizes para atuação da União, dos Estados, do Distrito Federal e dos Municípios em relação à matéria.
+
+                                Art. 2º A disciplina do uso da internet no Brasil tem como fundamento o respeito à liberdade de expressão, bem como:
+
+                                I - o reconhecimento da escala mundial da rede;
+
+                                II - os direitos humanos, o desenvolvimento da personalidade e o exercício da cidadania em meios digitais;
+
+                                III - a pluralidade e a diversidade;
+
+                                IV - a abertura e a colaboração;
+
+                                V - a livre iniciativa, a livre concorrência e a defesa do consumidor; e
+
+                                VI - a finalidade social da rede.
+
+                                Art. 3º A disciplina do uso da internet no Brasil tem os seguintes princípios:
+
+                                I - garantia da liberdade de expressão, comunicação e manifestação de pensamento, nos termos da Constituição Federal;
+
+                                II - proteção da privacidade;
+
+                                III - proteção dos dados pessoais, na forma da lei;
+
+                                IV - preservação e garantia da neutralidade de rede;
+
+                                V - preservação da estabilidade, segurança e funcionalidade da rede, por meio de medidas técnicas compatíveis com os padrões internacionais e pelo estímulo ao uso de boas práticas;
+
+                                VI - responsabilização dos agentes de acordo com suas atividades, nos termos da lei;
+
+                                VII - preservação da natureza participativa da rede;
+
+                                VIII - liberdade dos modelos de negócios promovidos na internet, desde que não conflitem com os demais princípios estabelecidos nesta Lei.
+
+                                Parágrafo único. Os princípios expressos nesta Lei não excluem outros previstos no ordenamento jurídico pátrio relacionados à matéria ou nos tratados internacionais em que a República Federativa do Brasil seja parte.
+
+                                Art. 4º A disciplina do uso da internet no Brasil tem por objetivo a promoção:
+
+                                I - do direito de acesso à internet a todos;
+
+                                II - do acesso à informação, ao conhecimento e à participação na vida cultural e na condução dos assuntos públicos;
+
+                                III - da inovação e do fomento à ampla difusão de novas tecnologias e modelos de uso e acesso; e
+
+                                IV - da adesão a padrões tecnológicos abertos que permitam a comunicação, a acessibilidade e a interoperabilidade entre aplicações e bases de dados.
+                            </p:panel>
+
+                            
+                            <br></br>
+                            <p:selectManyCheckbox layout="responsive" columns="3">
+                                <f:selectItem itemLabel="Aceitar os Termos" itemValue="termo" />
+                            </p:selectManyCheckbox>                 
+                        </div>
+                        <p:commandButton type="button" value="Aceitar os Termos"/>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
