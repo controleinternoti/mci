@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Relatório de Pedidos de Compras TI</ui:define>
+    <ui:define name="content">       
+        <div class="ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h:form id="formPedidoCompras">
+                        <div class="card card-w-title">
+                            <h1>Relatório de Pedidos de Compras TI</h1>
+                            <p:dataTable id="idTabela" value="#{relCobrancaPedidoCompraMB.listaComf0031}" var="compras" rows="50" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,50,100" emptyMessage="Nenhuma informação..." style="margin-bottom: 30px; margin-top: 5px" reflow="true" >
+                                <p:column headerText="Código" width="1" sortBy="#{compras.idFornecedor}">
+                                    <h:outputText value="#{compras.idFornecedor}"/>
+                                </p:column> 
+                                <p:column headerText="Fornecedor" width="90" sortBy="#{compras.nomeFornecedor}">
+                                    <h:outputText value="#{compras.nomeFornecedor}"/>
+                                </p:column>
+                                <p:column headerText="SC" width="3" sortBy="#{compras.pedido}">
+                                    <h:outputText value="#{compras.pedido}"/>
+                                </p:column> 
+                                <p:column headerText="Pedido" width="5" sortBy="#{compras.pedido}">
+                                    <h:outputText value="#{compras.pedido}"/>
+                                </p:column> 
+                                <p:column headerText="Data Entrega" width="6" sortBy="#{compras.dataEntrega}">
+                                    <h:outputText value="#{compras.dataEntrega}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Atraso" width="3">
+                                    <h:outputText style=" #{(compras.atraso>=30)?'color: red':'color:green'}" value="#{compras.atraso} dias"/>
+                                </p:column>
+                                <p:column style="text-align: center; width:1%">                                   
+                                    <p:commandLink title="Detalhes do Pedido" actionListener="#{relCobrancaPedidoCompraMB.visualizar}" id="detalhe" oncomplete="PF('dialogDetalhe').show();" update="formPedidoCompras" process="@this">
+                                        <i class="fa fa-search"  style="color: darkgreen"></i>
+                                    </p:commandLink>                                 
+                                </p:column>
+                            </p:dataTable> 
+                        </div>
+
+                        <p:dialog header="Detalhes do Pedido" widgetVar="dialogDetalhe" modal="true" showEffect="fade" hideEffect="fade" resizable="false" >
+                            <div class="ui-fluid">
+                                <p:dataTable id="idTabelaDialog" value="#{relCobrancaPedidoCompraMB.listaComf0031View}" class="ui-fluid" var="lista" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             emptyMessage="Nenhum treinamento.." 
+                                             style="margin-bottom: 10px; margin-top: 15px; 
+                                             max-width: 800px; min-width: 300px" reflow="true" editable="true" editMode="cell">
+                                    <p:column headerText="Código" width="1">
+                                        <h:outputText value="#{lista.cdProd}" />
+                                    </p:column>
+                                    <p:column headerText="Produto" width="90">
+                                        <h:outputText value="#{lista.produto}" />
+                                    </p:column>
+                                    <p:column headerText="UN" width="1">
+                                        <h:outputText value="#{lista.unidadeMedida}" />
+                                    </p:column>
+                                    <p:column headerText="Qtd. Sol." width="1">
+                                        <h:outputText value="#{lista.qtdeSolicitada}" />
+                                    </p:column>
+                                    <p:column headerText="Qtd. Rec." width="1">
+                                        <h:outputText value="#{lista.qtdeRecebida}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </p:dialog>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

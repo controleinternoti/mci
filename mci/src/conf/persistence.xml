@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="testePU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>model.Marca</class>
+    <class>model.Computador</class>
+    <class>model.Software</class>
+    <class>model.TipoSoftware</class>
+    <class>model.OpenLicense</class>
+    <class>model.SerialOpenLicense</class>
+    <class>model.TipoLicense</class>
+    <class>model.ComputadorSoftware</class>
+    <class>model.Ip</class>
+    <class>model.CanaDiaFrente</class>
+    <class>model.FrenteCapacDiaria</class>
+    <class>model.TreinamentoQualidade</class>
+    <class>model.FuncaoQualidade</class>
+    <class>model.FuncaoTreinamento</class>
+    <class>model.FuncaoQualidadeSgi</class>
+    <class>model.License</class>
+    <class>model.TreinamentoLocalTrabalho</class>
+    <class>model.ti.Email</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+      <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
+      <!-- BASE TESTE -->
+      <!--<property name="hibernate.connection.url" value="jdbc:oracle:thin:@172.16.159.157:1521:teste"/>
+      <property name="hibernate.connection.username" value="ti"/>
+      <property name="hibernate.connection.password" value="uc1800abc"/>-->
+      <!-- BASE PRODUÇÃO -->
+      <property name="hibernate.connection.url" value="jdbc:oracle:thin:@172.16.159.156:1521:cerradao"/>
+      <property name="hibernate.connection.username" value="ti"/>
+      <property name="hibernate.connection.password" value="uc1800abc"/>
+    </properties>
+  </persistence-unit>
+</persistence>

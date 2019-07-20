@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Notas Fiscais</ui:define>
+    <ui:define name="content">
+
+
+        <div class="ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h:form id="formNota">
+                        <p:growl id="menssagem" showDetail="true" sticky="false" />
+
+                        <div class="card card-w-title">
+                            <h1>Relatório de Notas Fiscais</h1>
+                            <div class="ui-fluid">
+                                <p:dataTable id="idTabela" value="#{notaFiscalMB.listaNf}" var="nf" rows="50" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30,40,50,60,70,80,90,100" emptyMessage="Nenhuma informação..." style="margin-bottom: 30px; margin-top: 5px" reflow="true" >                               
+                                    <f:facet name="header">
+                                        <p:outputPanel style="float:left;margin-top: 4px">                                       
+                                            <h:commandLink title="Baixar em Excel" ><i class="fa fa-file-excel-o"></i>
+                                                <p:dataExporter type="xls" target="idTabela" fileName="relatorioNF"/>
+                                            </h:commandLink><p:spacer width="10" height="5" />
+                                            <h:commandLink title="Baixar em CSV" ><i class="fa fa-file-text-o"></i>
+                                                <p:dataExporter type="csv" target="idTabela" fileName="relatorioNF" />
+                                            </h:commandLink><p:spacer width="10" height="5" />
+                                            <h:commandLink title="Baixar em PDF" id="nf"><i class="fa fa-file-pdf-o"></i>
+                                                <p:fileDownload value="" />
+                                            </h:commandLink>
+                                        </p:outputPanel>
+                                        <p:spacer width="25"></p:spacer>
+                                        <p:outputPanel style="float:right;margin-top: 4px">  
+
+                                            <p:spacer width="5"></p:spacer>
+                                            <p:inputText id="globalFilter"  style="width:400px" placeholder="Pesquisar...">
+                                                <p:ajax event="change" update="formNota:idTabela"  process="@this" />
+                                            </p:inputText>
+                                        </p:outputPanel>
+                                    </f:facet>
+                                    <p:column headerText="N°" width="1" sortBy="#{nf.numero}">
+                                        <h:outputText value="#{nf.numero}"/>
+                                    </p:column> 
+                                    <p:column headerText="Série" width="1" sortBy="#{nf.serie}">
+                                        <h:outputText value="#{nf.serie}"/>
+                                    </p:column>
+                                    <p:column headerText="Data Emissão" width="5" sortBy="#{nf.data}">
+                                        <h:outputText value="#{nf.data}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime> 
+                                        </h:outputText>
+                                    </p:column>  
+                                    <p:column headerText="Razão Social" width="45" sortBy="#{nf.razaoSocial}">
+                                        <h:outputText value="#{nf.razaoSocial}"/>
+                                    </p:column>
+                                    <p:column headerText="Danfe" width="45" sortBy="#{nf.danf}">
+                                        <h:outputText value="#{nf.danf}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>                            
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

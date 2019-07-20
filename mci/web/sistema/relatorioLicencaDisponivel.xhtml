@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Relatório de Licença Disponível</ui:define>
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h:form id="formRelatorioLicencaDisponivel">
+                        <p:growl id="menssagem" showDetail="true" sticky="false"/>
+
+                        <div class="card card-w-title">
+                            <h1>Relatório de Licença Disponível</h1>
+                            <div class="ui-fluid">
+                                <p:panelGrid columns="2" id="pnlSoftware1" columnClasses="ui-g-12 ui-md-1, ui-g-12 ui-md-4, ui-g-12 ui-md-7" layout="grid" 
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                    <p:outputLabel for="tipo" value="Licença:"/>
+                                    <p:selectOneMenu id="tipo" value="#{computadorMB.computador.tipo}">
+                                        <f:selectItem itemLabel="Selecionar" itemValue="1"/>
+                                        <f:selectItem itemLabel="WINDOWS" itemValue="WINDOWS"/>
+                                        <f:selectItem itemLabel="OFFICE" itemValue="OFFICE"/>
+                                        <f:selectItem itemLabel="OUTROS" itemValue="OUTROS"/>
+                                    </p:selectOneMenu> 
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                    </h:form>
+
+                    <h:form id="formRelatorioLicencaDisponivel2">
+                        <div class="card card-w-title">
+                            <p:dataTable id="idTabela" value="#{treinamentoMB.listaTreinamento2}" var="relatorio" rows="50" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,40,50,60,70,80,90,100" emptyMessage="Nenhuma informação..." style="margin-bottom: 30px; margin-top: 5px" reflow="true" >                               
+                                <f:facet name="header">
+                                    <p:spacer width="25"></p:spacer>
+                                    <p:outputPanel style="float:left;margin-top: 4px">
+                                        <h:commandLink>
+                                            <p:commandButton type="button" title="Baixar em Excel" icon="fa fa-file-excel-o" styleClass="secondary"/>
+                                            <p:dataExporter type="xls" target="idTabela" fileName="relatorioTreinamento"/>
+                                        </h:commandLink>
+                                        <p:spacer width="10" height="5" />
+                                        <h:commandLink>
+                                            <p:commandButton type="button" title="Baixar em CSV" icon="fa fa-file-text-o" styleClass="secondary"/>
+                                            <p:dataExporter type="csv" target="idTabela" fileName="relatorioTreinamento" />
+                                        </h:commandLink>
+                                        <p:spacer width="10" height="5" />
+                                        <p:commandButton type="button" title="Baixar em PDF" icon="fa fa-file-pdf-o" styleClass="secondary"/>
+                                    </p:outputPanel>
+                                    <p:spacer width="30"></p:spacer>
+                                </f:facet>
+                                <p:column headerText="Nome" width="40" sortBy="#{relatorio.cdColab}">
+                                    <h:outputText value="#{relatorio.cdColab}"/>
+                                </p:column> 
+                                <p:column headerText="Serial" width="60" sortBy="#{relatorio.nomeColab}">
+                                    <h:outputText value="#{relatorio.nomeColab}"/>
+                                </p:column>
+                                <p:column headerText="Data" width="10" sortBy="#{relatorio.nomeCargo}">
+                                    <h:outputText value="#{relatorio.nomeCargo}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+                                    </h:outputText>
+                                </p:column>     
+                                <p:column headerText="Nota Fiscal" width="10" sortBy="#{relatorio.descLocalTrab}">
+                                    <h:outputText value="#{relatorio.descLocalTrab}"/>
+                                </p:column> 
+                            </p:dataTable>    
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

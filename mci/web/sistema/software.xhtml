@@ -1,0 +1,190 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cadastro de Software</ui:define>
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h:form id="formSoftware">
+                        <p:growl id="menssagem" showDetail="true" sticky="false" />
+
+                        <div class="card card-w-title">
+                            <h1>Cadastro de Software</h1>
+                            <div class="ui-fluid">
+                                <h4>Dados da compra</h4>
+                                <p:panelGrid columns="4" id="pnlSoftware" columnClasses="ui-g-12 ui-md-1,ui-g-12 ui-md-5,ui-g-12 ui-md-1,ui-g-12 ui-md-5" layout="grid" 
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">   
+
+                                    <p:outputLabel for="tipoSoftware" value="Software:" indicateRequired="false"/>
+                                    <p:selectOneMenu id="tipoSoftware" value="#{softwareMB.tipo}" required="true" requiredMessage="Software obrigatório!" >
+                                        <f:selectItem itemLabel="Selecionar" itemValue="0" />
+                                        <f:selectItem itemLabel="OPEN LICENSE" itemValue="1" />
+                                        <f:selectItem itemLabel="MICROSOFT" itemValue="2" />
+                                        <f:selectItem itemLabel="OUTROS" itemValue="3" />
+                                        <p:ajax event="change" update="pnlSoftware, pnlSoftware1"  process="@this" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel for="tipo" value="Tipo:" indicateRequired="false"/>
+                                    <p:selectOneMenu id="tipo" value="#{softwareMB.software.tipoSoftware.idTipoSoftware}" required="true" requiredMessage="Tipo obrigatório!">
+                                        <f:selectItems itemLabel="Selecionar" itemValue="0"/>
+                                        <f:selectItems value="#{softwareMB.selectTipoSoftware}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel/>
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="4" id="pnlSoftware1" columnClasses="ui-g-12 ui-md-1,ui-g-12 ui-md-5,ui-g-12 ui-md-1,ui-g-12 ui-md-5" layout="grid" 
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">                                
+
+                                    <p:outputLabel for="idSerial" value="Serial:" rendered="#{softwareMB.tipo==1}" indicateRequired="false"/>
+                                    <p:autoComplete id="idSerial" maxResults="20" value="#{softwareMB.software.serialOpenLicenca}" rendered="#{softwareMB.tipo==1}" completeMethod="#{softwareMB.buscarSerialOpen}" converter="serialConverter"
+                                                    var="ser" itemLabel="#{ser.serial}" itemValue="#{ser}"
+                                                    forceSelection="true" required="true" requiredMessage="Software obrigatório!">
+                                        <p:ajax event="itemSelect" update="formSoftware:descricaoSerial, formSoftware:qtdeSerial" process="@this"/>
+                                    </p:autoComplete> 
+                                    <p:outputLabel value="Descrição:" rendered="#{softwareMB.tipo==1}"/>
+                                    <p:inputText  value="#{softwareMB.software.serialOpenLicenca.descSerial.descricao}" rendered="#{softwareMB.tipo==1}" id="descricaoSerial" disabled="true" /> 
+
+                                    <p:outputLabel value="Quantidade:" rendered="#{softwareMB.tipo==1}"/>
+                                    <p:inputText  value="#{softwareMB.software.serialOpenLicenca.idTipoLicense.quantidade}" rendered="#{softwareMB.tipo==1}"  id="qtdeSerial" disabled="true" />
+
+                                    <p:outputLabel value="Observação:" rendered="#{softwareMB.tipo==1}"/>
+                                    <p:inputText id="observação" rendered="#{softwareMB.tipo==1}" value="#{softwareMB.software.observacao}"/>
+
+                                    <p:outputLabel for="descricao" value="Descrição:" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}" />
+                                    <p:autoComplete id="descricao" maxResults="20" value="#{softwareMB.software.descicao}" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}" completeMethod="#{softwareMB.buscarDescricaoSerial}" converter="descrSerialSoftConverter"
+                                                    var="des" itemLabel="#{des.descricao}" itemValue="#{des}"
+                                                    forceSelection="true" >
+                                        <p:ajax event="itemSelect"  process="@this"/>
+                                    </p:autoComplete>                                    
+
+                                    <p:outputLabel value="Serial:" rendered="#{softwareMB.tipo==2}" indicateRequired="false"/>
+                                    <p:inputMask id="productKey" value="#{softwareMB.software.key}" mask="*****-*****-*****-*****-*****" rendered="#{softwareMB.tipo==2}" required="true" requiredMessage="Product key obrigatório!"/>                                   
+
+                                    <p:outputLabel value="Serial:" rendered="#{softwareMB.tipo==3}" indicateRequired="false"/>
+                                    <p:inputText id="productKeyOutros" value="#{softwareMB.software.key}" rendered="#{softwareMB.tipo==3}" required="true" requiredMessage="Product key obrigatório!"/>                                  
+
+                                    <p:outputLabel value="Email:" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}"/>
+                                    <p:inputText id="email" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}" value="#{softwareMB.software.email}"/>
+
+                                    <p:outputLabel value="Senha:" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}"/>
+                                    <p:inputText id="senha" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}" value="#{softwareMB.software.senha}"/>
+
+                                    <p:outputLabel value="Observação:" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}"/>
+                                    <p:inputText id="observaçãoOutros" style="#{(softwareMB.tipo==2)?'visibility: visible':(softwareMB.tipo==3)?'visibility: visible':'visibility: hidden; position: absolute'}" value="#{softwareMB.software.observacao}"/>
+                                </p:panelGrid > 
+
+                                <p:panelGrid columns="6" columnClasses="ui-g-12 ui-md-1,ui-g-12 ui-md-2,ui-g-12 ui-md-1,ui-g-12 ui-md-2, ui-g-12 ui-md-1, ui-g-12 ui-md-5" layout="grid" 
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">   
+                                    <p:outputLabel value="Data: "/>
+                                    <p:calendar locale="br" value="#{softwareMB.software.data}" pattern="dd/MM/yyyy">
+                                        <p:ajax event="dateSelect" listener="#{softwareMB.buscarNf}"/> 
+                                    </p:calendar>
+
+                                    <p:outputLabel value="N° Nota: " indicateRequired="false"/>
+                                    <p:inputText  value="#{softwareMB.software.nf}" required="true" requiredMessage="N° Nota obrigatório!">
+                                        <p:ajax event="change" update="formSoftware:fornecedor :formSoftware:numeroDanf" listener="#{softwareMB.buscarNf}" process="@this" />
+                                    </p:inputText>
+
+                                    <p:outputLabel  value="Fornecedor: " indicateRequired="false"/>
+                                    <p:inputText  id="fornecedor" disabled="true" value="#{softwareMB.fornecedor}"/>
+
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="4" columnClasses="ui-g-12 ui-md-1,ui-g-12 ui-md-5,ui-g-12 ui-md-1,ui-g-12 ui-md-5" layout="grid" 
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;"> 
+                                    <p:outputLabel value="N° Danfe: "/>
+                                    <p:inputText id="numeroDanf" disabled="true" value="#{softwareMB.danfe}"/>
+
+                                    <p:outputLabel for="status" value="Status:"/>
+                                    <p:inputSwitch onLabel="Ativo" offLabel="Inativo" id="status" value="#{softwareMB.status}"/>
+                                </p:panelGrid >
+
+                                <br></br>
+                                <p:panelGrid columns="5" layout="grid"
+                                             columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-4"
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                    <p:commandButton value="Salvar" update="formSoftware,formSoftware2" actionListener="#{softwareMB.gravar}"  
+                                                     icon="ui-icon-check"/>
+                                    <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="history.go(0);
+                                            return false;"/>
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                    </h:form>
+
+
+                    <h:form id="formSoftware2">
+                        <div class="card card-w-title">
+                            <p:dataTable id="idTabela" value="#{softwareMB.listaSoftware}" var="software" rows="20" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,50" emptyMessage="Nenhuma informação..." style="margin-bottom: 30px; margin-top: 5px" reflow="true" >
+                                <f:facet name="header">
+                                    <p:outputPanel style="float:left;margin-top: 4px">
+                                        <h:commandLink>
+                                            <p:commandButton type="button" title="Baixar em Excel" icon="fa fa-file-excel-o" styleClass="secondary"/>
+                                            <p:dataExporter type="xls" target="idTabela" fileName="software"/>
+                                        </h:commandLink>
+                                        <p:spacer width="10" height="5" />
+                                        <h:commandLink>
+                                            <p:commandButton type="button" title="Baixar em CSV" icon="fa fa-file-text-o" styleClass="secondary"/>
+                                            <p:dataExporter type="csv" target="idTabela" fileName="software"/>
+                                        </h:commandLink>
+                                        <p:spacer width="10" height="5" />
+                                        <p:commandButton type="button" title="Baixar em PDF" icon="fa fa-file-pdf-o" styleClass="secondary"/>
+                                    </p:outputPanel>
+                                    <p:spacer width="30"></p:spacer>
+                                    <p:outputPanel style="float:right;margin-top: 4px">  
+                                        <p:spacer width="5"></p:spacer>
+                                        <p:inputText id="globalFilter"  style="width:400px" placeholder="Pesquisar...">
+                                            <p:ajax event="change" update="formSoftware2:idTabela"  process="@this" />
+                                        </p:inputText>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column headerText="Descrição" width="30">
+                                    <h:outputText value="#{software.descicao.descricao}#{software.serialOpenLicenca.descSerial.descricao}"/>
+                                </p:column>
+                                <p:column headerText="Serial" width="40">
+                                    <h:outputText value="#{software.serialOpenLicenca.serial}#{software.key}" />
+                                </p:column>
+                                <p:column headerText="Qtd." width="2" sortBy="#{software.serialOpenLicenca.idTipoLicense.quantidade}">
+                                    <h:outputText value="#{(software.serialOpenLicenca.idTipoLicense.quantidade)==null?1:software.serialOpenLicenca.idTipoLicense.quantidade}" />
+                                </p:column>
+                                <p:column headerText="Nota Fiscal" width="5" sortBy="#{software.nf}">
+                                    <h:outputText value="#{software.nf}"/>
+                                </p:column>
+                                <p:column headerText="Data Emissão" width="7" sortBy="#{software.data}">
+                                    <h:outputText value="#{software.data}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Status" width="2" sortBy="#{software.situacao}">
+                                    <h:outputText value="#{software.situacao}" style="#{software.situacao=='INATIVO'?'color: red':'color: black'} "/>
+                                </p:column>
+                                <p:column style="text-align: center; width:1%">                                   
+                                    <p:commandLink title="Editar" id="alterar" actionListener="#{softwareMB.alterar()}" update="formSoftware, formSoftware2" process="@this">
+                                        <i class="fa fa-pencil-square-o" style="color: dodgerblue"></i>
+                                    </p:commandLink>                                 
+                                </p:column>
+                                <p:column style="text-align: center; width:1%">                                   
+                                    <p:commandLink title="Excluir" id="excluir" actionListener="#{softwareMB.excluir}" update="formSoftware, formSoftware2" process="@this">
+                                        <i class="fa fa-trash" style="color: red"></i>
+                                        <p:confirm header="Confirmação" message="Você tem certeza ?" icon="ui-icon-alert"/>
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable> 
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

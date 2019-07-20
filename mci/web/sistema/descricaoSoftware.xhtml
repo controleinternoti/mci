@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cadastro de Descrição de Software</ui:define>
+    <ui:define name="content">
+
+        <div class="ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h:form id="formTipoLicenca">
+                        <p:growl id="menssagem" showDetail="true" sticky="false" />
+
+                        <div class="card card-w-title">
+                            <h1>Cadastro de Descrição de Software</h1>
+                            <div class="ui-fluid">
+                                <p:panelGrid columns="3" layout="grid" 
+                                             columnClasses="ui-g-12 ui-md-1,ui-g-12 ui-md-5,ui-g-12 ui-md-6"
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">                                                  
+                                    <p:outputLabel for="idTipoLicenca" value="Descrição:" indicateRequired="false"/>
+                                    <p:inputText id="idTipoLicenca" value="#{descricaoSerialMB.descricaoSerial.descricao}" required="true" requiredMessage="Descrição obrigatória!"/> 
+                                    <p:outputLabel/>
+                                </p:panelGrid >
+                                <br/>
+                                <p:panelGrid columns="5" layout="grid"
+                                             columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-4"
+                                             styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                    <p:commandButton value="Salvar" update="formTipoLicenca,formTipoLicenca2:idTabela"
+                                                     icon="ui-icon-check" actionListener="#{descricaoSerialMB.gravar}"/>
+                                    <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="history.go(0); return false;"/>
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                    </h:form>
+                    <h:form id="formTipoLicenca2">
+                        <div class="card card-w-title">
+                            <p:dataTable id="idTabela" value="#{descricaoSerialMB.listaDescricaoSerial}" var="tipoLicenca" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,50" emptyMessage="Nenhuma informação..." style="margin-bottom: 30px; margin-top: 5px" reflow="true" >
+                                <f:facet name="header">
+                                    <p:outputPanel style="float:left;margin-top: 4px">
+                                        <h:commandLink>
+                                            <p:commandButton type="button" title="Baixar em Excel" icon="fa fa-file-excel-o" styleClass="secondary"/>
+                                            <p:dataExporter type="xls" target="idTabela" fileName="descricaoSerial"/>
+                                        </h:commandLink>
+                                        <p:spacer width="10" height="5" />
+                                        <h:commandLink>
+                                            <p:commandButton type="button" title="Baixar em CSV" icon="fa fa-file-text-o" styleClass="secondary"/>
+                                            <p:dataExporter type="csv" target="idTabela" fileName="descricaoSerial"/>
+                                        </h:commandLink>
+                                        <p:spacer width="10" height="5" />
+                                        <p:commandButton type="button" title="Baixar em PDF" icon="fa fa-file-pdf-o" styleClass="secondary"/>
+                                    </p:outputPanel>
+                                    <p:spacer width="30"></p:spacer>
+                                    <p:outputPanel style="float:right;margin-top: 4px">  
+                                        <p:spacer width="5"></p:spacer>
+                                        <p:inputText id="globalFilter" value="#{descricaoSerialMB.nomeSelecionado}"  style="width:400px" placeholder="Pesquisar...">
+                                            <p:ajax event="change" update="formTipoLicenca2:idTabela" listener="#{descricaoSerialMB.pesquisarDescricaoSerial}"  process="@this" />
+                                        </p:inputText>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column headerText="Descrição de Software" width="100" sortBy="#{tipoLicenca.descricao}">
+                                    <h:outputText value="#{tipoLicenca.descricao}"/>
+                                </p:column> 
+                                <p:column style="text-align: center; width:1%">                                   
+                                    <p:commandLink title="Editar" id="alterar" actionListener="#{descricaoSerialMB.alterar()}" update="formTipoLicenca,formTipoLicenca2:idTabela" process="@this">
+                                        <i class="fa fa-pencil-square-o" style="color: dodgerblue"></i>
+                                    </p:commandLink>                                 
+                                </p:column>
+                                <p:column style="text-align: center; width:1%">                                   
+                                    <p:commandLink title="Excluir" id="excluir" actionListener="#{descricaoSerialMB.excluir}" update="formTipoLicenca,formTipoLicenca2" process="idTabela">
+                                        <i class="fa fa-trash" style="color: red"></i>
+                                        <p:confirm header="Confirmação" message="Você tem certeza ?" icon="ui-icon-alert"/>
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable> 
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
