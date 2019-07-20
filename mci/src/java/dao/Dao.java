@@ -60,15 +60,15 @@ public class Dao implements Serializable {
 //----------------PORTAL FORNECEDOR-----------------------
 
     //----------------Login----------------
+   //----------------Login----------------
     public Usuario buscarUsuarioSpring(String usuario) {
         Usuario user = null;
         try {
-            user = (Usuario) em.createNativeQuery("Select * from USINAS.WEB_PROP_USU where CD_USU_BD = '" + usuario + "'", Usuario.class).getSingleResult();
-            System.out.println("===============" + user.getUsuario());
-            System.out.println("===============" + user.getIdUsuario());
-            usuarioLogado(user.getUsuario());
-            setUser(user.getUsuario());
-            setIdUser(user.getIdUsuario());
+            user = (Usuario) em.createNativeQuery("Select * from ti.usuario where nome = '" + usuario + "'", Usuario.class).getSingleResult();
+            System.out.println("===============" + user.getNome());
+            System.out.println("===============" + user.getPerfil());
+            usuarioLogado(user.getNome());
+            setUser(user.getNome());
         } catch (Exception e) {
         }
 
@@ -77,17 +77,18 @@ public class Dao implements Serializable {
     }
 
     public Usuario usuarioLogado(String nome) {
-        return (Usuario) em.createNativeQuery("Select * from USINAS.WEB_PROP_USU where CD_USU_BD = '" + nome + "'", Usuario.class).getSingleResult();
+        return (Usuario) em.createNativeQuery("Select * from TI.USUARIO where NOME = '" + nome + "'", Usuario.class).getSingleResult();
     }
 //    public List<Usuario> usuarioLogado2() {
 //        return (List<Usuario>) em.createNativeQuery("SELECT * FROM TI.USUARIO  where APELIDO = '" + getUser() + "'", Usuario.class).getResultList();
 //    }
 
     public List<Object[]> usuarioLogado2() {
-        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select WEBPROPUSU_ID,CD_USU_BD FROM USINAS.WEB_PROP_USU where CD_USU_BD = '" + getUser() + "'");
+        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select NOME, APELIDO, PERFIL FROM TI.USUARIO where NOME = '" + getUser() + "'");
         List<Object[]> results = query.getResultList();
         return results;
     }
+
     //----------------DASHBOARD----------------
 
     public List<Object[]> cota() {

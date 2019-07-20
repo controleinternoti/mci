@@ -29,7 +29,7 @@ public class AppUserDetailsService implements UserDetailsService {
         Usuario usr = dao.buscarUsuarioSpring(usuario);
         UsuarioSistema usuarioSistema = null;
         if (usr != null) {
-            usuarioSistema = new UsuarioSistema(usr, getGrupos("FORNECEDOR"));
+            usuarioSistema = new UsuarioSistema(usr, getGrupos(usr.getPerfil()));
         }
         return usuarioSistema;
     }

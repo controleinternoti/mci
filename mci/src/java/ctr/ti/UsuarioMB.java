@@ -8,7 +8,6 @@ package ctr.ti;
 import dao.Dao;
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -33,8 +32,7 @@ public class UsuarioMB implements Serializable{
     private List<Usuario> listaUsuario = new ArrayList<Usuario>();
 
     //Variaveis
-    private String nome, perfil;
-    BigDecimal user;
+    private String nome, perfil, user;
 
     public UsuarioMB() {
         dao = (Dao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("dao");
@@ -55,8 +53,9 @@ public class UsuarioMB implements Serializable{
             setNome("Administrador");
         } else {
             for (Object[] result : results) {
-                setUser((BigDecimal) result[0]);
+                setUser((String) result[0]);
                 setNome((String) result[1]);
+                setPerfil((String) result[2]);
             }
 
         }
@@ -115,15 +114,12 @@ public class UsuarioMB implements Serializable{
         this.perfil = perfil;
     }
 
-    public BigDecimal getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(BigDecimal user) {
+    public void setUser(String user) {
         this.user = user;
     }
-
-    
-    
     
 }

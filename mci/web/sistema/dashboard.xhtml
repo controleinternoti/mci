@@ -35,12 +35,12 @@
                     }
                 }
             }
-            //]]>      
+            //]]>
 
             function skinBar() {
                 this.cfg.shadow = false;
                 this.cfg.title = '';
-                this.cfg.seriesColors = ['#e30910', '#FFC107'];
+                this.cfg.seriesColors = ['#4CAF50', '#FFC107'];
                 this.cfg.grid = {
                     background: '#ffffff',
                     borderColor: '#ffffff',
@@ -58,45 +58,6 @@
                     shadow: false,
                     lineWidth: 1,
                     renderer: $.jqplot.BarRenderer,
-                    rendererOptions: {varyBarColor: true},
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
-            function skinBarCota() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                //this.cfg.seriesColors = ['#e30910', '#FFC107'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    borderWidth: 0.1,
-                    borderColor: 'bdbdbd',
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    renderer: $.jqplot.BarRenderer,
-                    rendererOptions: {
-                        varyBarColor: true,
-                        barWidth: 50,
-                    },
-                    highlighter: {
-                        show: true,
-                        formatString: 'Valor %s',
-                        //other stuff like sizeAdjust...
-                    },
                     markerOptions: {
                         shadow: false,
                         size: 7,
@@ -269,41 +230,6 @@
                 }
             }
 
-            function skinBarAndLineMinerais() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#4CAF50', '#643304', '#212121'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#F5F5F5',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    borderWidth: 0.1,
-                    borderColor: 'bdbdbd',
-                    rendererOptions: {
-                        textColor: '#666F77'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    renderer: $.jqplot.BarRenderer,
-                    rendererOptions: {barWidth: 50},
-                    highlighter: {
-                        show: true,
-                        formatString: 'Impureza Mineral %s, %s',                     
-                        //other stuff like sizeAdjust...
-                    },
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-
             function skinMeterGauge() {
                 this.cfg.title = '';
                 this.cfg.seriesDefaults = {
@@ -349,9 +275,6 @@
                 }
             }
 
-//Codigo resposavel pela formatação valores do chart PrimeFaces.
-            $.jqplot.sprintf.thousandsSeparator = '.';
-            $.jqplot.sprintf.decimalMark = ',';
         </script>
         <style type="text/css">
             .main-content {
@@ -367,22 +290,6 @@
                 color: #757575;
                 border-color: #bdbdbd;
             }
-
-
-            .jqplot-target, .jqplot-axis {
-                color: #546E7A;
-            }
-
-            .jqplot-highlighter-tooltip, .jqplot-canvasOverlay-tooltip {
-                border: 1px solid #000;
-                background: #000;
-                opacity: 0.7;
-                color: #fff;
-                font-size: 1.1em;
-                white-space: nowrap;
-                padding: 5px;
-                z-index: 1;
-            }
         </style>
     </ui:define>
 
@@ -391,9 +298,9 @@
             <div class="ui-g-12 ui-md-4">
                 <div class="card overview">
                     <div class="overview-content clearfix">
-                        <span class="overview-title">Propriedade</span>
+                        <span class="overview-title">Computador</span>
                         <span class="overview-badge"><i class="material-icons">desktop_windows</i></span>
-                        <span class="overview-detail">4 fazendas</span>
+                        <span class="overview-detail">#{dashboardMB.dashboard.totComputador} ativos</span>
                     </div>
                     <div class="overview-footer">
                         <p:graphicImage name="images/dashboard/sales.svg" library="ultima-layout" style="width: 100%" />
@@ -403,9 +310,9 @@
             <div class="ui-g-12 ui-md-4">
                 <div class="card overview">
                     <div class="overview-content clearfix">
-                        <span class="overview-title">Talhões</span>
+                        <span class="overview-title">Notebook</span>
                         <span class="overview-badge"><i class="material-icons">computer</i></span>
-                        <span class="overview-detail">86 talhões</span>
+                        <span class="overview-detail">#{dashboardMB.dashboard.totNotebook} ativos</span>
                     </div>
                     <div class="overview-footer">
                         <p:graphicImage name="images/dashboard/views.svg" library="ultima-layout" style="width: 100%" />
@@ -415,9 +322,9 @@
             <div class="ui-g-12 ui-md-4">
                 <div class="card overview">
                     <div class="overview-content clearfix">
-                        <span class="overview-title">Safra</span>                        
+                        <span class="overview-title">Servidor</span>                        
                         <span class="overview-badge"><i class="material-icons">storage</i></span>
-                        <span class="overview-detail">2019 / 2020</span>
+                        <span class="overview-detail">3 físico</span>
                     </div>
                     <div class="overview-footer">
                         <p:graphicImage name="images/dashboard/progress.svg" library="ultima-layout" style="width: 100%" />
@@ -425,63 +332,398 @@
                 </div>
             </div>
 
-            <div class="ui-g-12 ui-lg-12">
-                <div class="card">
-                    <h1 class="centerText">Impurezas Minerais</h1>
-                    <p:chart id="combined" type="bar" model="#{dashboardMB.combinedModelMineral}" responsive="true" />
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card colorbox colorbox-1">
+                    <div class="ui-g-4">
+                        <i class="material-icons">book</i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="colorbox-name">Office</span>
+                        <span class="colorbox-count">#{dashboardMB.dashboard.totOffice}</span>
+                    </div>
                 </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card colorbox colorbox-2">
+                    <div class="ui-g-4">
+                        <i class="material-icons">dvr</i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="colorbox-name">Windows</span>
+                        <span class="colorbox-count">#{dashboardMB.dashboard.totWindows}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card colorbox colorbox-3">
+                    <div class="ui-g-4">
+                        <i class="material-icons">storage</i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="colorbox-name">Server Virtual</span>
+                        <span class="colorbox-count">10</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card colorbox colorbox-4">
+                    <div class="ui-g-4">
+                        <i class="material-icons">mail_outline</i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="colorbox-name">Email</span>
+                        <span class="colorbox-count">#{dashboardMB.dashboard.totEmail}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <p:panel header="Informações do Office" style="height:100%">
+                    <div class="activity-header">
+                        <div class="ui-g">
+                            <div class="ui-g-6">
+                                <span style="font-weight:bold">Total</span>
+                            </div>
+                            <div class="ui-g-6" style="text-align:right">
+                                <p:commandButton type="button" icon="ui-icon-book" onclick="PF('dlg1').show();" />
+                            </div>
+                        </div>
+                    </div>
+                    <p:dialog header="Informações do Office" widgetVar="dlg1" width="300" height="200" responsive="true" modal="true" resizable="false">
+                        <h:outputText value="Office OpenLicense: #{dashboardMB.officeOpen}"/>                   
+                        <br> </br>
+                        <h:outputText value="Office FPP: #{dashboardMB.officeFpp}"/>                       
+                        <br> </br>
+                        <h:outputText value="instalado:  #{(dashboardMB.officeOpen + dashboardMB.officeFpp)- dashboardMB.dashboard.officeDisponiveis}"/>
+                        <br> </br>
+                        <h:outputText value="Disponível: #{dashboardMB.dashboard.officeDisponiveis}"/>
+                        <br> </br>
+                        <h:outputText value="Total:  #{dashboardMB.officeOpen + dashboardMB.officeFpp}" 
+                                      style="font-weight: bold"/>
+                    </p:dialog>
+                    <ul class="activity-list">
+                        <li>
+                            <div class="count" style="background-color:#4CAF50">#{dashboardMB.dashboard.office2019}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Office 2019</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoOffice(2019)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#4CAF50">#{dashboardMB.dashboard.office2016}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Office 2016</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoOffice(2016)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#4CAF50">#{dashboardMB.dashboard.office2013}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Office 2013</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoOffice(2013)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#4CAF50">#{dashboardMB.dashboard.office2010}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Office 2010</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoOffice(2010)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#4CAF50">#{dashboardMB.dashboard.office2007}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Office 2007</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoOffice(2007)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#4CAF50">0</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Office 2003</div>
+                                <div class="ui-g-6">
+                                    <i class="material-icons">info</i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </p:panel>
+            </div>
+
+
+            <div class="ui-g-12 ui-md-4">
+                <p:panel header="Informações do Windows" style="height:100%">
+                    <div class="activity-header">
+                        <div class="ui-g">
+                            <div class="ui-g-6">
+                                <span style="font-weight:bold">Total</span>
+                            </div>
+                            <div class="ui-g-6" style="text-align:right">
+                                <p:commandButton type="button" icon="ui-icon-desktop-windows"  onclick="PF('dlg2').show();" />
+                            </div>
+                        </div>
+                    </div>
+                    <p:dialog header="Informações do Windows" widgetVar="dlg2" width="300" height="200" responsive="true" modal="true" resizable="false">
+                        <h:outputText value="Windows OpenLicense: #{dashboardMB.windowsOpen} " />
+                        <br> </br>
+                        <h:outputText value="Windows OEM: #{dashboardMB.windowsOem}"  />                      
+                        <br> </br>
+                        <h:outputText value="Instalado: #{(dashboardMB.windowsOpen + dashboardMB.windowsOem)-dashboardMB.totWinDiponivel}"  />
+                        <br> </br>
+                        <h:outputText value="Disponível: #{dashboardMB.totWinDiponivel}"  />
+                        <br> </br>
+                        <h:outputText value="Total:  #{dashboardMB.windowsOpen + dashboardMB.windowsOem}" 
+                                      style="font-weight: bold"/>
+                    </p:dialog>
+                    <ul class="activity-list">
+                        <li>
+                            <div class="count" style="background-color:#03A9F4">#{dashboardMB.dashboard.windows10}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Windows 10</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoWindows(10)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#03A9F4">#{dashboardMB.dashboard.windows8_1}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Windows 8.1</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoWindows(81)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#03A9F4">#{dashboardMB.dashboard.windows8}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Windows 8</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoWindows(8)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#03A9F4">#{dashboardMB.dashboard.windows7}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Windows 7</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoWindows(7)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#03A9F4">#{dashboardMB.dashboard.windowsVista}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Windows Vista</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoWindows(6)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#03A9F4">#{dashboardMB.dashboard.windowsXp}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Windows XP</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoWindows(5)}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </p:panel>
+            </div>            
+
+            <div class="ui-g-12 ui-md-4">
+                <p:panel header="Windows Cals / Softwares Diversos" style="height:100%">
+                    <div class="activity-header">
+                        <div class="ui-g">
+                            <div class="ui-g-6">
+                                <span style="font-weight:bold">Informações</span>
+                            </div>
+                            <div class="ui-g-6" style="text-align:right">
+                                <p:commandButton type="button" icon="ui-icon-receipt" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="activity-list">
+                        <li>
+                            <div class="count" style="background-color:#FF5722">#{dashboardMB.dashboard.office2013}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Remote Desktop Services</div>
+                                <div class="ui-g-6">                                 
+                                    <i class="material-icons">info</i>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#FF5722">0</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Device Cal</div>
+                                <div class="ui-g-6">
+                                    <i class="material-icons">info</i>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#FF5722">0</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">User Cal</div>
+                                <div class="ui-g-6">
+                                    <i class="material-icons">info</i>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#607D8B">#{dashboardMB.totAutocad}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Auto CAD</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoSofAdd('AUTOCAD')}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#607D8B">#{dashboardMB.totProject}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Project Standard</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoSofAdd('PROJECT')}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                        <li>
+                            <div class="count" style="background-color:#607D8B">#{dashboardMB.totAgrocad}</div>
+                            <div class="ui-g">
+                                <div class="ui-g-6">Agro CAD</div>
+                                <div class="ui-g-6">
+                                    <p:commandLink title="Informação detalhada" actionListener="#{dashboardMB.selecionarOpcaoSofAdd('AGROCAD')}" onclick="PF('relacaoDeMicros').show();" update="idTabelaDialogFun" process="@this">
+                                        <i class="material-icons">info</i>
+                                    </p:commandLink>
+                                </div> 
+                            </div>
+                        </li>
+                    </ul>
+                </p:panel>
+            </div>
+
+
+            <p:dialog header="Relação com Computador" widgetVar="relacaoDeMicros" minHeight="40" responsive="true" modal="true" resizable="false">
+                <p:dataTable  id="idTabelaDialogFun" value="#{dashboardMB.listaDashboard}" var="dash" class="ui-fluid" rows="7" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                              emptyMessage="Nenhuma treinamento.." 
+                              style="margin-bottom: 10px; margin-top: 15px; 
+                              max-width: 800px; min-width: 300px" reflow="true">
+
+                    <p:column width="10" headerText="Micro" sortBy="#{dash.micro}">
+                        <h:outputText value="#{dash.micro}" />
+                    </p:column >
+                    <p:column visible="#{(dashboardMB.coluna)?true:false}"  width="40" headerText="Licença" sortBy="#{dash.nomeSoft}">
+                        <h:outputText value="#{dash.nomeSoft}" />
+                    </p:column>
+                    <p:column width="50" headerText="Serial" sortBy="#{dash.serial}">
+                        <h:outputText value="#{dash.serial}" />
+                    </p:column>
+                    <p:column  width="5" headerText="Contrato" sortBy="#{dash.contrato}">
+                        <h:outputText value="#{dash.contrato}" />
+                    </p:column>
+                </p:dataTable>    
+            </p:dialog>
+
+
+            <div class="ui-g-12 ui-lg-6">
+                <div class="card">
+                    <h1 class="centerText">Linear Chart</h1>
+                    <p:chart id="line" type="line" model="#{chartDemoView.lineModel1}" responsive="true"/>
+                </div>
+
+                <div class="card">
+                    <h1 class="centerText">Bar Chart</h1>
+                    <p:chart id="bar" type="bar" model="#{chartDemoView.barModel}" responsive="true"/>
+                </div>
+
+                <div class="card">
+                    <h1 class="centerText">Area Chart</h1>
+                    <p:chart id="area" type="line" model="#{chartDemoView.areaModel}" responsive="true" />
+                </div>
+
+                <div class="card">
+                    <h1 class="centerText">Bubble Chart</h1>
+                    <p:chart id="bubble" type="bubble" model="#{chartDemoView.bubbleModel1}" responsive="true"/>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+                <div class="card">
+                    <h1 class="centerText">Pie Chart</h1>
+                    <p:chart id="pie" type="pie" model="#{chartDemoView.pieModel1}" responsive="true" />
+                </div>
+
+                <div class="card">
+                    <h1 class="centerText">Donut Chart</h1>
+                    <p:chart id="donut" type="donut" model="#{chartDemoView.donutModel1}" responsive="true" />
+                </div>
+
+                <div class="card">
+                    <h1 class="centerText">Bar And Line Chart</h1>
+                    <p:chart id="combined" type="bar" model="#{chartDemoView.combinedModel}" responsive="true" />
+                </div>
+
+                <div class="card">
+                    <h1 class="centerText">Multi Axis Chart</h1>
+                    <p:chart id="multiAxis" type="line" model="#{chartDemoView.multiAxisModel}" responsive="true"/>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-12">
+                <h:form>
+                    <div class="card">
+
+                        <p:panel header="Gráfico de Linha" style="margin-bottom:20px;">
+                            <p:chart type="line" model="#{chartDemoView.lineModel1}" responsive="true"/>
+                        </p:panel>
+
+                        <p:panel header="Gráfico de Barras" style="margin-bottom:20px;">
+                            <p:chart id="bar" type="bar" model="#{chartDemoView.barModel}" responsive="true"/>
+                        </p:panel>    
+                    </div>
+                </h:form>   
             </div> 
-
-
-            <div class="ui-g-12 ui-lg-12">
-                <div class="card">
-                    <h1 class="centerText">Bar Chart</h1>
-                    <p:chart id="multiAxis2" type="bar" model="#{dashboardMB.combinedModelMineral}" responsive="true"/>                      
-                </div>  
-            </div>
-
-            <div class="ui-g-12 ui-lg-12">
-                <div class="card">
-                    <h1 class="centerText">Bar Chart</h1>
-                    <p:chart id="multiAxis3" type="bar" model="#{dashboardMB.combinedModelMineral}" responsive="true"/>
-
-                </div>  
-            </div>
-
-            <div class="ui-g-12 ui-lg-4">
-                <div class="card">
-                    <h1 class="centerText">Cota</h1>
-                    <p:chart id="bar1" type="bar" model="#{dashboardMB.barModel}" responsive="true"/>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-lg-4">
-                <div class="card">
-                    <h1 class="centerText">Pie Chart</h1>
-                    <p:chart id="bar2" type="bar" model="#{dashboardMB.barModel}" responsive="true"/>
-                </div>
-            </div>
-
-            <div class="ui-g-12 ui-lg-4">
-                <div class="card">
-                    <h1 class="centerText">Pie Chart</h1>
-                    <p:chart id="bar3" type="bar" model="#{dashboardMB.barModel}" responsive="true"/>
-                </div>
-            </div>
-
-            <div class="ui-g-12 ui-lg-6">
-                <div class="card">
-                    <h1 class="centerText">Pie Chart</h1>
-                    <p:chart id="bar34" type="bar" model="#{dashboardMB.barModel}" responsive="true"/>
-                </div>
-            </div>
-
-            <div class="ui-g-12 ui-lg-6">
-                <div class="card">
-                    <h1 class="centerText">Pie Chart</h1>
-                    <p:chart id="bar33" type="bar" model="#{dashboardMB.barModel}" responsive="true"/>
-                </div>
-            </div>
-
         </div>
     </ui:define>
 
