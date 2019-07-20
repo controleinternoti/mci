@@ -6,6 +6,7 @@
 package model.ti;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +14,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
  * @author Eder
  */
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario_unifi")
 public class Usuario implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
@@ -36,8 +41,18 @@ public class Usuario implements Serializable{
     @Column(name = "perfil", nullable = false)
     private String perfil;
     
-    @Column(name = "apelido", nullable = true)
-    private String apelido;
+    @CPF
+    @Column(name = "cpf", nullable = false)
+    private String cpf;
+    
+    @Temporal(value = TemporalType.DATE)
+    @Column(name = "data_nasc", nullable = false)
+    private Date dataNasc;
+    
+    @Email(message = "Endereço de email inválido")
+    @Column(name = "email", nullable = false)
+    private String email;
+    
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -71,13 +86,31 @@ public class Usuario implements Serializable{
         this.perfil = perfil;
     }
 
-    public String getApelido() {
-        return apelido;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
+
+    public Date getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setDataNasc(Date dataNasc) {
+        this.dataNasc = dataNasc;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
     
     
     

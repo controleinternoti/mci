@@ -60,7 +60,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         Collection<? extends GrantedAuthority> authorities
          = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("FORNECEDOR")) {
+            if (grantedAuthority.getAuthority().equals("VISITANTE")) {
                 isFor = true;
                 break;
             } else if (grantedAuthority.getAuthority().equals("ADMINISTRADOR")) {

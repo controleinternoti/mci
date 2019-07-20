@@ -35,8 +35,9 @@
         <custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
         <intercept-url pattern="/sistema/dashboard.xhtml" access="isAuthenticated()"/>
         <intercept-url pattern="/sistema/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/cadastro.xhtml" access="isAnonymous()"/>
         <intercept-url pattern="/acessoNegado.xhtml" access="isAuthenticated()"/>              
-        <intercept-url pattern="/sistema/**" access="hasAnyRole('ADMINISTRADOR','FORNECEDOR')"/>
+        <intercept-url pattern="/sistema/**" access="hasAnyRole('ADMINISTRADOR','VISITANTE')"/>
          <intercept-url pattern="/agricola/**" access="hasAnyRole('AGRICOLA','ADMINISTRADOR')"/>      
         <intercept-url pattern="/**" access="denyAll"/>
         <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?invalid=true" default-target-url="/" always-use-default-target="true" authentication-success-handler-ref="myAuthenticationSuccessHandler" />

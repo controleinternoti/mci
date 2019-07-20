@@ -83,10 +83,10 @@ public class Dao implements Serializable {
     public Usuario buscarUsuarioSpring(String usuario) {
         Usuario user = null;
         try {
-            user = (Usuario) em.createNativeQuery("Select * from ti.usuario where nome = '" + usuario + "'", Usuario.class).getSingleResult();
-            System.out.println("===============" + user.getNome());
+            user = (Usuario) em.createNativeQuery("Select * from ti.usuario_unifi where cpf = '" + usuario + "'", Usuario.class).getSingleResult();
+            System.out.println("===============" + user.getCpf());
             System.out.println("===============" + user.getPerfil());
-            usuarioLogado(user.getNome());
+            usuarioLogado(user.getCpf());
             setUser(user.getNome());
         } catch (Exception e) {
         }
@@ -96,14 +96,14 @@ public class Dao implements Serializable {
     }
 
     public Usuario usuarioLogado(String nome) {
-        return (Usuario) em.createNativeQuery("Select * from TI.USUARIO where NOME = '" + nome + "'", Usuario.class).getSingleResult();
+        return (Usuario) em.createNativeQuery("Select *  from ti.usuario_unifi where cpf = '" + nome + "'", Usuario.class).getSingleResult();
     }
 //    public List<Usuario> usuarioLogado2() {
 //        return (List<Usuario>) em.createNativeQuery("SELECT * FROM TI.USUARIO  where APELIDO = '" + getUser() + "'", Usuario.class).getResultList();
 //    }
 
     public List<Object[]> usuarioLogado2() {
-        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select NOME, APELIDO, PERFIL FROM TI.USUARIO where NOME = '" + getUser() + "'");
+        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select NOME, EMAIL, PERFIL  from ti.usuario_unifi where cpf  = '" + getUser() + "'");
         List<Object[]> results = query.getResultList();
         return results;
     }

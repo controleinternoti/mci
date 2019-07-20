@@ -54,7 +54,6 @@ public class UsuarioMB implements Serializable{
         } else {
             for (Object[] result : results) {
                 setUser((String) result[0]);
-                setNome((String) result[1]);
                 setPerfil((String) result[2]);
             }
 

@@ -20,25 +20,27 @@
                                              columnClasses="ui-g-12 ui-md-1,ui-g-12 ui-md-5,ui-g-12 ui-md-1, ui-g-12 ui-md-5" 
                                              styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">                                                  
                                     <p:outputLabel for="idNome" value="Nome:" indicateRequired="false"/>
-                                    <p:inputText id="idNome" value="" required="true" requiredMessage="Nome obrigatório!"/>
+                                    <p:inputText id="idNome" value="#{cadastroUsuarioMB.usuario.nome}" required="true" requiredMessage="Nome obrigatório!"/>
                                     <p:outputLabel for="idcpf" value="CPF:" indicateRequired="false"/>
-                                    <p:inputMask id="idcpf" value="" mask="999.999.999-99" required="true" requiredMessage="CPF obrigatório!"/>    
+                                    <p:inputMask id="idcpf" value="#{cadastroUsuarioMB.usuario.cpf}" mask="999.999.999-99" required="true" requiredMessage="CPF obrigatório!"/>    
                                 
                                     <p:outputLabel for="iddata" value="Data Nascimento:"/>
-                                    <p:calendar id="iddata" locale="br"/>
+                                    <p:calendar id="iddata" value="#{cadastroUsuarioMB.usuario.dataNasc}" locale="br"/>
                                
                                     
                                     <p:outputLabel for="idemail" value="Email:" indicateRequired="false"/>
-                                    <p:inputText id="idemail" value="" required="true" requiredMessage="Email obrigatório!"/>
+                                    <p:inputText id="idemail" value="#{cadastroUsuarioMB.usuario.email}" required="true" requiredMessage="Email obrigatório!"/>
                                     <p:outputLabel for="idsenha" value="Senha:" indicateRequired="false"/>
-                                    <p:password id="idsenha" value="" required="true" requiredMessage="Senha obrigatório!" />
+                                    <p:password id="idsenha" value="#{cadastroUsuarioMB.usuario.senha}" required="true" requiredMessage="Senha obrigatório!" />
+                                    <p:outputLabel for="idconfsenha" value="Confirma Senha:" indicateRequired="false"/>
+                                    <p:password id="idconfsenha" value="#{cadastroUsuarioMB.confSenha}" required="true" requiredMessage="Senha obrigatório!" />
                                     
                                 </p:panelGrid >
                                 <br/>
                                 <p:panelGrid columns="5" layout="grid"
                                              columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-4"
                                              styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
-                                    <p:commandButton value="Salvar" update="formCadastro"
+                                    <p:commandButton value="Salvar" update="formCadastro,menssagem" actionListener="#{cadastroUsuarioMB.gravar}" 
                                                      icon="ui-icon-check"/>
                                     <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="history.go(0); return false;"/>
 

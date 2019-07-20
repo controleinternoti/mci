@@ -14,7 +14,7 @@
                         <div class="profile">
                             <div class="profile-image"></div>
                             <a id="profile-options" href="#">
-                                <span class="profile-name">#{usuarioMB.nome}</span>
+                                <span class="profile-name">#{usuarioMB.user}</span>
                                 <i class="material-icons">&#xE313;</i>
                             </a>
                         </div>
@@ -48,9 +48,9 @@
                     </ui:fragment>
 
                     <pu:menu widgetVar="me">
-                        <p:menuitem  style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="um_dashboard" value="Dashboard" icon="dashboard" outcome="/sistema/dashboard"/>
-                        <p:menuitem  style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="cadastro" value="Cadastro" icon="dashboard" outcome="/sistema/cadastro"/>
-                        <p:menuitem  style="#{(usuarioMB.perfil!='ADMINISTRADOR')?'visibility: hidden; position: absolute':''}" id="termo_aceite" value="Termo de Aceite" icon="dashboard" outcome="/sistema/termoAceite"/>
+                        <p:menuitem  style="#{(usuarioMB.perfil!='VISITANTE')?'visibility: hidden; position: absolute':''}" id="um_dashboard" value="Dashboard" icon="dashboard" outcome="/sistema/dashboard"/>
+                        <p:menuitem  style="#{(usuarioMB.perfil!='VISITANTE')?'visibility: hidden; position: absolute':''}" id="cadastro" value="Cadastro" icon="dashboard" outcome="/sistema/cadastro"/>
+                        <p:menuitem  style="#{(usuarioMB.perfil!='VISITANTE')?'visibility: hidden; position: absolute':''}" id="termo_aceite" value="Termo de Aceite" icon="dashboard" outcome="/sistema/termoAceite"/>
 
                         
 
@@ -91,6 +91,8 @@
                             </p:submenu>               
                         </p:submenu>
                     </pu:menu>
+                    
+                    
                 </div>
             </div>
         </div>
