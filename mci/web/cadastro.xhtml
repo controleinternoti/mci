@@ -25,14 +25,13 @@
                                     <p:inputMask id="idcpf" value="#{cadastroUsuarioMB.usuario.cpf}" mask="999.999.999-99" required="true" requiredMessage="CPF obrigatório!"/>    
                                 
                                     <p:outputLabel for="iddata" value="Data Nascimento:"/>
-                                    <p:calendar id="iddata" value="#{cadastroUsuarioMB.usuario.dataNasc}" locale="br"/>
-                               
-                                    
+                                    <p:calendar id="iddata" value="#{cadastroUsuarioMB.usuario.dataNasc}" locale="br" pattern="dd/MM/yyyy"/>
+
                                     <p:outputLabel for="idemail" value="Email:" indicateRequired="false"/>
                                     <p:inputText id="idemail" value="#{cadastroUsuarioMB.usuario.email}" required="true" requiredMessage="Email obrigatório!"/>
                                     <p:outputLabel for="idsenha" value="Senha:" indicateRequired="false"/>
                                     <p:password id="idsenha" value="#{cadastroUsuarioMB.usuario.senha}" required="true" requiredMessage="Senha obrigatório!" />
-                                    <p:outputLabel for="idconfsenha" value="Confirma Senha:" indicateRequired="false"/>
+                                    <p:outputLabel for="idconfsenha" value="Confirmar Senha:" indicateRequired="false"/>
                                     <p:password id="idconfsenha" value="#{cadastroUsuarioMB.confSenha}" required="true" requiredMessage="Senha obrigatório!" />
                                     
                                 </p:panelGrid >

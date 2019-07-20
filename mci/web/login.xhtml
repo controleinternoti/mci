@@ -31,8 +31,8 @@
                     </div>
                     <div class="ui-g-12">
                         <h:panelGroup styleClass="md-inputfield">
-                            <p:inputText id="j_username"/>
-                            <label>Usuário</label>
+                            <p:inputMask id="j_username" mask="999.999.999-99"/>
+                            <label>CPF</label>
                         </h:panelGroup>
                     </div>
                     <div class="ui-g-12">
@@ -43,7 +43,8 @@
                     </div>
                     <p:messages id="messages" showDetail="true" autoUpdate="true" />
                     <div class="ui-g-12">                                        
-                        <p:commandButton value="Entrar" actionListener="#{loginMB.login}" ajax="false" update="messages" icon="ui-icon-person"/>                       
+                        <p:commandButton value="Acessar" actionListener="#{loginMB.login}" ajax="false" update="messages" icon="ui-icon-forward"/>                       
+                        <p:button outcome="/cadastro" value="Cadastrar" icon="ui-icon-person" styleClass="secondary"/>
                     </div>
                 </div>
             </div>
