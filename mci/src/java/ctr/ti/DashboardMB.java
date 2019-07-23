@@ -47,17 +47,19 @@ public class DashboardMB implements Serializable {
     private String nome, perfil, user, mac;
 
 
-    public DashboardMB() {
+    public DashboardMB() throws IOException {
         dao = (Dao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("dao");
         novo();
 
     }
-    public void novo(){
+    public void novo() throws SocketException, IOException{
      usuario = new Usuario();
      listaUsuario = new ArrayList<Usuario>();
+     usuarioLogado3();
+     
     }
 
-    public void usuarioLogado3() throws SocketException {
+    public void usuarioLogado3() throws SocketException, IOException {
         List<Object[]> results = dao.usuarioLogado2();
         if (results.isEmpty()) {
             setNome("Administrador");
@@ -70,12 +72,14 @@ public class DashboardMB implements Serializable {
 
         }
         mac();
+        insertMongo();
     }
     
     public void insertMongo() throws IOException{
         MongoClient mongoCliente = new MongoClient("localhost",27117);
             DB db=mongoCliente.getDB("ace");
             DBCollection coll = db.getCollection("user");
+            System.out.println("CONECTOU");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
       
             String json  ="{'mac':'"+getMac()+"','name':'"+getUser()+"','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";  
