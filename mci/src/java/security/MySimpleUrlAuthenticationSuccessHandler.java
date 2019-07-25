@@ -70,7 +70,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         }
  
         if (isFor) {
-            return "/sistema/dashboard.xhtml";
+            return "/sistema/termoAceite.xhtml";
         } else if (isAdmin) {
             return "/sistema/dashboard.xhtml";
         } else {

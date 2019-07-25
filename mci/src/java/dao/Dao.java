@@ -103,7 +103,7 @@ public class Dao implements Serializable {
 //    }
 
     public List<Object[]> usuarioLogado2() {
-        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select NOME, EMAIL, PERFIL  from ti.usuario_unifi where cpf  = '" + getUser() + "'");
+        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select NOME, ID_USUARIO, PERFIL  from ti.usuario_unifi where cpf  = '" + getUser() + "'");
         List<Object[]> results = query.getResultList();
         return results;
     }

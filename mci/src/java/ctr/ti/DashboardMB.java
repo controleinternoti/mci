@@ -78,11 +78,12 @@ public class DashboardMB implements Serializable {
     public void insertMongo() throws IOException{
         MongoClient mongoCliente = new MongoClient("localhost",27117);
             DB db=mongoCliente.getDB("ace");
-            DBCollection coll = db.getCollection("user");
+            DBCollection coll = db.getCollection("guest");
             System.out.println("CONECTOU");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
       
-            String json  ="{'mac':'"+getMac()+"','name':'"+getUser()+"','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";  
+            //String json  ="{'mac':'"+getMac()+"','name':'"+getUser()+"','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";  
+            String json  ="{'mac':'"+getMac()+"','ap_mac':'80:2a:a8:d3:1d:ec','start':'1563','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";
             DBObject dbObject = (DBObject)JSON.parse(json);
             coll.insert(dbObject);
         

@@ -41,7 +41,7 @@ public class AcessoUnifi implements Serializable{
     @JoinColumn(name = "id_usuario", nullable = false, foreignKey = @ForeignKey(name = "id_acesso_usuarior"))
     private Usuario userUnifi;
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "data", nullable = false)
+    @Column(name = "data", nullable = true)
     private Date data;
 
     public Integer getIdAcesso() {
