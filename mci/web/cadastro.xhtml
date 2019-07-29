@@ -22,7 +22,9 @@
                                     <p:outputLabel for="idNome" value="Nome:" indicateRequired="false"/>
                                     <p:inputText id="idNome" value="#{cadastroUsuarioMB.usuario.nome}" required="true" requiredMessage="Nome obrigatório!"/>
                                     <p:outputLabel for="idcpf" value="CPF:" indicateRequired="false"/>
-                                    <p:inputMask id="idcpf" value="#{cadastroUsuarioMB.usuario.cpf}" mask="999.999.999-99" required="true" requiredMessage="CPF obrigatório!"/>    
+                                    <p:inputMask id="idcpf" value="#{cadastroUsuarioMB.usuario.cpf}" mask="999.999.999-99" required="true" requiredMessage="CPF obrigatório!">
+                                        <p:ajax listener="#{cadastroUsuarioMB.verificaCpf}" update="menssagem,salvar" process="@this" />
+                                    </p:inputMask>    
                                 
                                     <p:outputLabel for="iddata" value="Data Nascimento:"/>
                                     <p:calendar id="iddata" value="#{cadastroUsuarioMB.usuario.dataNasc}" locale="br" pattern="dd/MM/yyyy" mask="true"/>
@@ -39,7 +41,7 @@
                                 <p:panelGrid columns="5" layout="grid"
                                              columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-2,ui-g-12 ui-md-4"
                                              styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
-                                    <p:commandButton value="Salvar" update="formCadastro,menssagem" actionListener="#{cadastroUsuarioMB.gravar}" 
+                                    <p:commandButton value="Salvar" update="formCadastro,menssagem" disabled="#{(cadastroUsuarioMB.cpfCadastrado)? true:false}" id="salvar" actionListener="#{cadastroUsuarioMB.gravar}" 
                                                      icon="ui-icon-check"/>
                                     <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="history.go(0); return false;"/>
 

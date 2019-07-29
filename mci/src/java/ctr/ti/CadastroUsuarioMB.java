@@ -15,7 +15,9 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.bean.ManagedBean;
@@ -36,9 +38,11 @@ public class CadastroUsuarioMB implements Serializable {
 
     private Dao dao;
     private Usuario usuario;
+    private List<Usuario>listaCpfCadastrado  =  new ArrayList<Usuario>();
     private String nome, cpf, email, confSenha;
     private Date dataNasc;
     private String mac, ip;
+    private boolean cpfCadastrado;
 
     public CadastroUsuarioMB() throws SocketException {
         novo();
@@ -49,8 +53,23 @@ public class CadastroUsuarioMB implements Serializable {
     }
 
     public void novo() {
+        dao = new Dao();
         usuario = new Usuario();
+        listaCpfCadastrado  =  new ArrayList<Usuario>();
         setConfSenha("");
+        setCpfCadastrado(false);
+    }
+    public void verificaCpf(){
+        listaCpfCadastrado  =  new ArrayList<Usuario>();
+        System.out.println(usuario.getCpf());
+        List<Object[]> results =  dao.verificaCpfCadastrado(usuario.getCpf());
+        if(results.size()>0){
+            FacesUtil.addWarnMessage("Informação", "CPF ja cadastrado!");
+            setCpfCadastrado(true);
+        }else{
+            setCpfCadastrado(false);
+        }
+            
     }
 
     public String getRemoteAddress() {
@@ -230,7 +249,7 @@ public class CadastroUsuarioMB implements Serializable {
 //        }
 //    }
     public void gravar(ActionEvent evt) {
-        dao = new Dao();
+        //dao = new Dao();
         try {
             usuario.setPerfil("VISITANTE");
             dao.gravar(usuario);
@@ -315,5 +334,22 @@ public class CadastroUsuarioMB implements Serializable {
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+    public boolean isCpfCadastrado() {
+        return cpfCadastrado;
+    }
+
+    public void setCpfCadastrado(boolean cpfCadastrado) {
+        this.cpfCadastrado = cpfCadastrado;
+    }
+
+    public Pattern getMacpt() {
+        return macpt;
+    }
+
+    public void setMacpt(Pattern macpt) {
+        this.macpt = macpt;
+    }
+    
 
 }

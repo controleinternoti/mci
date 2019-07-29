@@ -20,6 +20,7 @@
     <class>model.License</class>
     <class>model.TreinamentoLocalTrabalho</class>
     <class>model.ti.Email</class>
+    <class>model.ti.AcessoUnifi</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
@@ -30,7 +31,7 @@
       <property name="hibernate.connection.password" value="uc1800abc"/>-->
       <!-- BASE PRODUÇÃO -->
       <property name="hibernate.connection.url" value="jdbc:oracle:thin:@172.16.159.156:1521:cerradao"/>
-      <property name="hibernate.connection.username" value="ti"/>
+      <property name="hibernate.connection.username" value="ti_unifi"/>
       <property name="hibernate.connection.password" value="uc1800abc"/>
     </properties>
   </persistence-unit>

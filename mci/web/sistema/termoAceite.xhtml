@@ -73,9 +73,10 @@
                             <br></br>
                             <p:selectManyCheckbox layout="responsive" columns="3">
                                 <f:selectItem itemLabel="Aceitar os Termos" itemValue="termo" />
+                                <p:ajax listener="#{acessoMB.habilitar}" update="ok" process="@this"/>
                             </p:selectManyCheckbox>                 
                         </div>
-                        <p:commandButton value="Ok" actionListener="#{acessoMB.redirecionar}" process="@this"/>                   
+                        <p:commandButton id="ok" disabled="#{(acessoMB.habi)?true:false}" value="Ok" actionListener="#{acessoMB.redirecionar}" process="@this"/>                   
                     </div>
                 </div>
             </div>

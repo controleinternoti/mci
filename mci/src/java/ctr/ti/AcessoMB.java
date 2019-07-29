@@ -5,8 +5,10 @@
  */
 package ctr.ti;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
@@ -46,7 +48,8 @@ public class AcessoMB implements Serializable {
     private String ip, mac;
     private String nome, perfil, user;
     private BigDecimal idUsuario;
-    private Integer start = 1564081272, end = 1564082272;
+    private Integer start = 1564413496, end = 1564442296;
+    private boolean habi;
 
     public AcessoMB() throws IOException {
         dao = (Dao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("dao");
@@ -57,13 +60,17 @@ public class AcessoMB implements Serializable {
     public void redirecionar() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("./liberacaoAcesso.xhtml");
     }
+    public void habilitar(){
+        setHabi(false);
+    }
 
     public void novo() throws IOException {
-        usuarioLogado3();
-        getRemoteAddress();
         usuario = new Usuario();
         acessoUnifi = new AcessoUnifi();
         acessoUnifi.setUserUnifi(new Usuario());
+        usuarioLogado3();
+        selectMongo();
+        setHabi(true);
     }
 
     public void usuarioLogado3() throws SocketException, IOException {
@@ -165,6 +172,20 @@ public class AcessoMB implements Serializable {
         return "";
     }
 
+    public void selectMongo() {
+        MongoClient mongoCliente = new MongoClient("localhost", 27117);
+        DB db = mongoCliente.getDB("ace");
+        DBCollection coll = db.getCollection("guest");
+        BasicDBObject fields = new BasicDBObject().append("start", 1); // SELECT name
+        //BasicDBObject query = new BasicDBObject().append("name", "Jon"); // WHERE name = "Jon"
+        DBCursor results = coll.find( fields).sort(new BasicDBObject("start",1)).limit(1); // FROM yourCollection
+         for (DBObject dbObject : results) {
+        System.out.println(dbObject);
+    }
+
+        //System.out.println("result " + results);
+    }
+
     public void insertMongo() throws IOException {
         MongoClient mongoCliente = new MongoClient("localhost", 27117);
         DB db = mongoCliente.getDB("ace");
@@ -180,8 +201,8 @@ public class AcessoMB implements Serializable {
         coll.insert(dbObject);
         FacesContext.getCurrentInstance().getExternalContext().redirect("www.usinacerradao.com.br");
 
-        setStart(getEnd() + 1);
-        setStart(getStart() + 3000);
+        setStart(getStart() + 169);
+        setStart(getEnd()+ 169);
         System.out.println("Inicio: " + getStart());
         System.out.println("Fim: " + getEnd());
 
@@ -316,5 +337,15 @@ public class AcessoMB implements Serializable {
     public void setIdUsuario(BigDecimal idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+    public boolean isHabi() {
+        return habi;
+    }
+
+    public void setHabi(boolean habi) {
+        this.habi = habi;
+    }
+
+    
 
 }
