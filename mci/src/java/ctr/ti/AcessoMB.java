@@ -59,6 +59,7 @@ public class AcessoMB implements Serializable {
 
     public void redirecionar() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("./liberacaoAcesso.xhtml");
+        usuarioLogado3();
     }
     public void habilitar(){
         setHabi(false);
@@ -68,8 +69,8 @@ public class AcessoMB implements Serializable {
         usuario = new Usuario();
         acessoUnifi = new AcessoUnifi();
         acessoUnifi.setUserUnifi(new Usuario());
-        usuarioLogado3();
-        selectMongo();
+        
+        //selectMongo();
         setHabi(true);
     }
 
@@ -225,7 +226,7 @@ public class AcessoMB implements Serializable {
             System.out.println("ip: " + acessoUnifi.getIp());
             System.out.println("mac: " + acessoUnifi.getMac());
             dao.gravar(acessoUnifi);
-            novo();
+            //novo();
 
         } catch (Exception ex) {
             FacesUtil.addErrorMessage("Erro", "Entre em contato com suporte!");
