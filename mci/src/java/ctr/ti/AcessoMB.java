@@ -54,7 +54,7 @@ public class AcessoMB implements Serializable {
 
     }
 
-    public void redirecionar(ActionEvent evt) throws IOException {
+    public void redirecionar() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("./liberacaoAcesso.xhtml");
     }
 

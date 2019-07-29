@@ -7,9 +7,42 @@
 
     <ui:define name="title">Liberação Acesso</ui:define>
 
+    <ui:define name="content"> 
 
-    <ui:define name="content">     
+        <script type="text/javascript">
+            function start() {
+                PF('startButton1').disable();
+
+                window['progress'] = setInterval(function () {
+                    var pbClient = PF('pbClient'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+
+            function cancel() {
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+
+        </script>
+
         <h1>#{acessoMB.user}</h1>
+
+
+        <div class="card">
+            <h1>Por favor, aguarde!!!</h1>
+            <p:progressBar value="80" labelTemplate="{value}%" displayOnly="true"/>
+        </div>
     </ui:define>  
 
 </ui:composition>

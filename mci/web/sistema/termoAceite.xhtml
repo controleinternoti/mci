@@ -8,7 +8,7 @@
     <ui:define name="title">Termo de Aceite</ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form id="formAceite">
             <div class="ui-fluid">
                 <div class="ui-g">
                     <div class="ui-g-12">
@@ -69,13 +69,13 @@
                                 IV - da adesão a padrões tecnológicos abertos que permitam a comunicação, a acessibilidade e a interoperabilidade entre aplicações e bases de dados.
                             </p:panel>
 
-                            
+
                             <br></br>
                             <p:selectManyCheckbox layout="responsive" columns="3">
                                 <f:selectItem itemLabel="Aceitar os Termos" itemValue="termo" />
                             </p:selectManyCheckbox>                 
                         </div>
-                        <p:commandLink styleClass="ui-icon-trash" type="button" value="Aceitar os Termos" actionListener="#{acessoMB.redirecionar}"/>
+                        <p:commandButton value="Ok" actionListener="#{acessoMB.redirecionar}" process="@this"/>                   
                     </div>
                 </div>
             </div>
