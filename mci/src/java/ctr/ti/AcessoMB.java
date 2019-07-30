@@ -11,6 +11,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.util.JSON;
 import dao.Dao;
 import java.io.BufferedReader;
@@ -19,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +50,7 @@ public class AcessoMB implements Serializable {
     private String ip, mac;
     private String nome, perfil, user;
     private BigDecimal idUsuario;
-    private Integer start = 1564413496, end = 1564442296;
+    private Integer start = 1564413665, end = 1564442465;
     private boolean habi;
 
     public AcessoMB() throws IOException {
@@ -60,8 +62,10 @@ public class AcessoMB implements Serializable {
     public void redirecionar() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("./liberacaoAcesso.xhtml");
         usuarioLogado3();
+        //insertMongo();
     }
-    public void habilitar(){
+
+    public void habilitar() {
         setHabi(false);
     }
 
@@ -69,7 +73,7 @@ public class AcessoMB implements Serializable {
         usuario = new Usuario();
         acessoUnifi = new AcessoUnifi();
         acessoUnifi.setUserUnifi(new Usuario());
-        
+
         //selectMongo();
         setHabi(true);
     }
@@ -179,34 +183,43 @@ public class AcessoMB implements Serializable {
         DBCollection coll = db.getCollection("guest");
         BasicDBObject fields = new BasicDBObject().append("start", 1); // SELECT name
         //BasicDBObject query = new BasicDBObject().append("name", "Jon"); // WHERE name = "Jon"
-        DBCursor results = coll.find( fields).sort(new BasicDBObject("start",1)).limit(1); // FROM yourCollection
-         for (DBObject dbObject : results) {
-        System.out.println(dbObject);
-    }
+        DBCursor results = coll.find(fields).sort(new BasicDBObject("start", 1)).limit(1); // FROM yourCollection
+        for (DBObject dbObject : results) {
+            System.out.println(dbObject);
+        }
 
         //System.out.println("result " + results);
     }
 
-    public void insertMongo() throws IOException {
-        MongoClient mongoCliente = new MongoClient("localhost", 27117);
-        DB db = mongoCliente.getDB("ace");
-        DBCollection coll = db.getCollection("guest");
-        System.out.println("CONECTOU");
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    public void insertMongo() {
+        try {
 
-        String m = getMac();
-        String m2 = m.replaceAll("-", ":");
-        //String json  ="{'mac':'"+getMac()+"','name':'"+getUser()+"','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";  
-        String json = "{'mac':'" + m2 + "','ap_mac':'80:2a:a8:d3:1d:ec','start':" + getStart() + ",'site_id':'5d35a53b527d8c05882e157f','authorized_by':'api','end':" + getEnd() + "}";
-        DBObject dbObject = (DBObject) JSON.parse(json);
-        coll.insert(dbObject);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("www.usinacerradao.com.br");
+            MongoClient mongoCliente = new MongoClient("localhost", 27117);
+            DB db = mongoCliente.getDB("ace");
+            DBCollection coll = db.getCollection("guest");
+            System.out.println("CONECTOU");
+            //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-        setStart(getStart() + 169);
-        setStart(getEnd()+ 169);
-        System.out.println("Inicio: " + getStart());
-        System.out.println("Fim: " + getEnd());
+            String m = getMac();
+            String m2 = m.replaceAll("-", ":");
+            //String json  ="{'mac':'"+getMac()+"','name':'"+getUser()+"','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";  
+            String json = "{'mac':'" + m2 + "','ap_mac':'80:2a:a8:d3:1d:ec','start':" + getStart() + ",'site_id':'5d3c31b2805ddd15c8b545b9','authorized_by':'api','end':" + getEnd() + "}";
+            //String json = "{'mac':'80:2a:a8:d3:1d:ec','ap_mac':'80:2a:a8:d3:1d:ec','start':1564413665,'site_id':'5d3c31b2805ddd15c8b545b9','authorized_by':'api','end':1564442465}";
+            DBObject dbObject = (DBObject) JSON.parse(json);
+            coll.insert(dbObject);
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("www.usinacerradao.com.br");
 
+            setStart(getStart() + 169);
+            setStart(getEnd() + 169);
+            System.out.println("Inicio: " + getStart());
+            System.out.println("Fim: " + getEnd());
+            DBCursor cursorDocJSON = coll.find();
+            while (cursorDocJSON.hasNext()) {
+                System.out.println(cursorDocJSON.next());
+            }
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
     }
 
     public void insertOracle() throws IOException {
@@ -346,7 +359,5 @@ public class AcessoMB implements Serializable {
     public void setHabi(boolean habi) {
         this.habi = habi;
     }
-
-    
 
 }

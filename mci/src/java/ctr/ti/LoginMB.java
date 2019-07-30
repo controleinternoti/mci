@@ -33,12 +33,11 @@ public class LoginMB implements Serializable{
     private List<Usuario> listaUsuario = new ArrayList<Usuario>();
     
     public LoginMB() {
-        
-        
+         dao = new Dao();
     }
     
     public void login() throws ServletException, IOException{
-        dao = new Dao();
+       
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("dao", dao);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
