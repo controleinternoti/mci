@@ -15,15 +15,24 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.jar.Attributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
 import javax.servlet.http.HttpServletRequest;
 import model.ti.Usuario;
 import util.FacesUtil;
@@ -38,7 +47,7 @@ public class CadastroUsuarioMB implements Serializable {
 
     private Dao dao;
     private Usuario usuario;
-    private List<Usuario>listaCpfCadastrado  =  new ArrayList<Usuario>();
+    private List<Usuario> listaCpfCadastrado = new ArrayList<Usuario>();
     private String nome, cpf, email, confSenha;
     private Date dataNasc;
     private String mac, ip;
@@ -55,22 +64,24 @@ public class CadastroUsuarioMB implements Serializable {
     public void novo() {
         dao = new Dao();
         usuario = new Usuario();
-        listaCpfCadastrado  =  new ArrayList<Usuario>();
+        listaCpfCadastrado = new ArrayList<Usuario>();
         setConfSenha("");
         setCpfCadastrado(false);
     }
-    public void verificaCpf(){
-        listaCpfCadastrado  =  new ArrayList<Usuario>();
+
+    public void verificaCpf() {
+        listaCpfCadastrado = new ArrayList<Usuario>();
         System.out.println(usuario.getCpf());
-        List<Object[]> results =  dao.verificaCpfCadastrado(usuario.getCpf());
-        if(results.size()>0){
+        List<Object[]> results = dao.verificaCpfCadastrado(usuario.getCpf());
+        if (results.size() > 0) {
             FacesUtil.addWarnMessage("Informação", "CPF ja cadastrado!");
             setCpfCadastrado(true);
-        }else{
+        } else {
             setCpfCadastrado(false);
         }
-            
+
     }
+
 
     public String getRemoteAddress() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -350,6 +361,5 @@ public class CadastroUsuarioMB implements Serializable {
     public void setMacpt(Pattern macpt) {
         this.macpt = macpt;
     }
-    
 
 }

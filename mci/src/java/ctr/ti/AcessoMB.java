@@ -28,10 +28,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import model.ti.AcessoUnifi;
+import model.ti.Redirecionamento;
 import model.ti.Usuario;
 import util.FacesUtil;
 
@@ -40,42 +42,45 @@ import util.FacesUtil;
  * @author enascimento
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class AcessoMB implements Serializable {
 
     private Dao dao;
     private AcessoUnifi acessoUnifi;
+    private Redirecionamento redirecionamento;
     private Usuario usuario;
     private List<AcessoUnifi> listaAcessoUnifi = new ArrayList<AcessoUnifi>();
-    private String ip, mac;
+    private String ip, mac, macAp, teste;
     private String nome, perfil, user;
     private BigDecimal idUsuario;
-    private Integer start = 1564413665, end = 1564442465;
+    private Integer start, end = 1564442465;
     private boolean habi;
 
     public AcessoMB() throws IOException {
         dao = (Dao) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("dao");
         novo();
+    }
 
+    public void novo() throws IOException {
+        usuario = new Usuario();
+        acessoUnifi = new AcessoUnifi();
+        redirecionamento = new Redirecionamento();
+        acessoUnifi.setUserUnifi(new Usuario());
+        setTeste("");
+
+        //selectMongo();
+        setHabi(true);
     }
 
     public void redirecionar() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("./liberacaoAcesso.xhtml");
         usuarioLogado3();
         //insertMongo();
+        //buscaMac();
     }
 
     public void habilitar() {
         setHabi(false);
-    }
-
-    public void novo() throws IOException {
-        usuario = new Usuario();
-        acessoUnifi = new AcessoUnifi();
-        acessoUnifi.setUserUnifi(new Usuario());
-
-        //selectMongo();
-        setHabi(true);
     }
 
     public void usuarioLogado3() throws SocketException, IOException {
@@ -159,8 +164,8 @@ public class AcessoMB implements Serializable {
                     System.out.println("Found");
                     System.out.println("MAC: " + m.group(0));
                     setMac(m.group(0));
-                    insertOracle();
-                    insertMongo();
+                    //insertOracle();
+                    //insertMongo();
                     return m.group(0);
                 }
 
@@ -177,6 +182,26 @@ public class AcessoMB implements Serializable {
         return "";
     }
 
+    public void buscaMac() throws IOException {
+        //setMac("98:39:8e:dd:b3:e1");
+        List<Object[]> results = dao.buscaMac(getMac());
+        Redirecionamento re = null;
+        BigDecimal id;
+        for (Object[] result : results) {
+            re = new Redirecionamento();
+            id = (BigDecimal) result[0];
+            re.setId(id.intValue());
+            re.setMac((String) result[1]);
+            re.setMacAp((String) result[2]);
+            re.setStart((String) result[3]);
+        }
+        
+       int a = Integer.valueOf(re.getStart());    
+        System.out.println("a: " + a);
+        insertMongo(a);
+        insertOracle();
+    }
+
     public void selectMongo() {
         MongoClient mongoCliente = new MongoClient("localhost", 27117);
         DB db = mongoCliente.getDB("ace");
@@ -191,7 +216,7 @@ public class AcessoMB implements Serializable {
         //System.out.println("result " + results);
     }
 
-    public void insertMongo() {
+    public void insertMongo(int end) {
         try {
 
             MongoClient mongoCliente = new MongoClient("localhost", 27117);
@@ -199,20 +224,13 @@ public class AcessoMB implements Serializable {
             DBCollection coll = db.getCollection("guest");
             System.out.println("CONECTOU");
             //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-            String m = getMac();
-            String m2 = m.replaceAll("-", ":");
+            setEnd(end+28000);
             //String json  ="{'mac':'"+getMac()+"','name':'"+getUser()+"','network_id':'5d14a07339ea348224553605','site_id':'5d138e7ba51e4442f41d1bbb'}";  
-            String json = "{'mac':'" + m2 + "','ap_mac':'80:2a:a8:d3:1d:ec','start':" + getStart() + ",'site_id':'5d3c31b2805ddd15c8b545b9','authorized_by':'api','end':" + getEnd() + "}";
+            String json = "{'mac':'" + redirecionamento.getMac() + "','ap_mac':'"+redirecionamento.getMacAp()+"','start':" + getStart() + ",'site_id':'5d3c31b2805ddd15c8b545b9','authorized_by':'api','end':" + getEnd() + "}";
             //String json = "{'mac':'80:2a:a8:d3:1d:ec','ap_mac':'80:2a:a8:d3:1d:ec','start':1564413665,'site_id':'5d3c31b2805ddd15c8b545b9','authorized_by':'api','end':1564442465}";
             DBObject dbObject = (DBObject) JSON.parse(json);
             coll.insert(dbObject);
             //FacesContext.getCurrentInstance().getExternalContext().redirect("www.usinacerradao.com.br");
-
-            setStart(getStart() + 169);
-            setStart(getEnd() + 169);
-            System.out.println("Inicio: " + getStart());
-            System.out.println("Fim: " + getEnd());
             DBCursor cursorDocJSON = coll.find();
             while (cursorDocJSON.hasNext()) {
                 System.out.println(cursorDocJSON.next());
@@ -358,6 +376,22 @@ public class AcessoMB implements Serializable {
 
     public void setHabi(boolean habi) {
         this.habi = habi;
+    }
+
+    public String getMacAp() {
+        return macAp;
+    }
+
+    public void setMacAp(String macAp) {
+        this.macAp = macAp;
+    }
+
+    public String getTeste() {
+        return teste;
+    }
+
+    public void setTeste(String teste) {
+        this.teste = teste;
     }
 
 }

@@ -36,6 +36,7 @@
         <intercept-url pattern="/sistema/dashboard.xhtml" access="isAuthenticated()"/>
         <intercept-url pattern="/sistema/**" access="isAuthenticated()"/>
         <intercept-url pattern="/cadastro.xhtml" access="isAnonymous()"/>
+        <intercept-url pattern="/access.xhtml" access="isAnonymous()"/>
         <intercept-url pattern="/acessoNegado.xhtml" access="isAuthenticated()"/>              
         <intercept-url pattern="/sistema/**" access="hasAnyRole('ADMINISTRADOR','VISITANTE')"/>
          <intercept-url pattern="/agricola/**" access="hasAnyRole('AGRICOLA','ADMINISTRADOR')"/>      

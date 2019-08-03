@@ -32,6 +32,7 @@ public class Dao implements Serializable {
         em.getTransaction().begin();
         em.persist(objeto);
         em.getTransaction().commit();
+        //em.close();
     }
 
     public void alterar(Object objeto) {
@@ -107,6 +108,7 @@ public class Dao implements Serializable {
         List<Object[]> results = query.getResultList();
         return results;
     }
+
     public List<Object[]> verificaCpfCadastrado(String nome) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("Select *  from ti_unifi.usuario_unifi where cpf = '" + nome + "'");
         List<Object[]> results = query.getResultList();
@@ -183,8 +185,21 @@ public class Dao implements Serializable {
         return results;
     }
 
-    public List<Object[]> buscarColaboradoresComDataDemisao(BigDecimal mat, BigDecimal emp) {
-        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("select colab_id, cd_colab, nome_colab from USINAS.v_colab where cd_colab = " + mat + "and cd_empr = " + emp);
+    public List<Object[]> buscaMac(String mac) {
+        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT\n"
+                + "  *\n"
+                + "FROM\n"
+                + "  TI_UNIFI.REDIRECIONAMENTO\n"
+                + "WHERE\n"
+                + "  MAC                   = '"+mac+"'\n"
+                + "AND ID_REDIRECIONAMENTO =\n"
+                + "  (\n"
+                + "    SELECT\n"
+                + "      MAX(ID_REDIRECIONAMENTO)\n"
+                + "    FROM\n"
+                + "      TI_UNIFI.REDIRECIONAMENTO tu1\n"
+                + "    where TI_UNIFI.REDIRECIONAMENTO.MAC = tu1.MAC\n"
+                + "  )");
         List<Object[]> results = query.getResultList();
         return results;
     }
@@ -197,7 +212,6 @@ public class Dao implements Serializable {
     }
 
     //----------------Marca----------------
-    
     //----------------Nota Fiscal----------------
     public List<Object[]> buscarNF() {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT A.NRO,a.SERIE,a.DT_EMISS,a.RAZAO_SOCIAL,a.NRO_NFE,b.CD_PROD,b.DESCR_PROD FROM NF_ENT a, ITNF_ENT b WHERE a.NFENT_ID = b.NFENT_ID AND b.CD_PROD  in ('54578','54579','54160','54164') order by a.DT_EMISS");
@@ -221,8 +235,6 @@ public class Dao implements Serializable {
     }
 
     //----------------ComputadorSoftwareMB----------------
-
-
     public List<Object[]> buscarCompuatdorRelacionado(String micro) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT * FROM V_COMPUTADOR_SOFTWARE WHERE COMPUTADOR = '" + micro + "'");
         List<Object[]> results = query.getResultList();
@@ -297,7 +309,6 @@ public class Dao implements Serializable {
         List<Object[]> results = query.getResultList();
         return results;
     }
-
 
     public List<Object[]> buscarMicroRelacionadoSoftwareOpen(String micro) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT ID_COMPUTADOR_SOFTWARE,\n"
@@ -466,7 +477,7 @@ public class Dao implements Serializable {
                 + "AND B.ID_TIPO_LICENSE = C.ID_TIPO_LICENSE\n"
                 + "AND C.ID_OPEN_LICENSE = D.ID_OPEN_LICENSE\n"
                 + "AND B.ID_DESCR_SERIAL = E.ID_DESCR_SERIAL\n"
-                + "AND D.CONTRATO IN ("+contrato+")\n"
+                + "AND D.CONTRATO IN (" + contrato + ")\n"
                 + "AND B.ID_DESCR_SERIAL IN(8,9,10,11,12)");
         List<Object[]> results = query.getResultList();
         return results;
@@ -629,24 +640,13 @@ public class Dao implements Serializable {
     }
 
     //----------------Metodo converter usado no AUTOCOMPLETE----------------
-
-
-
     //----------------Serial OpenLicense -----------------------
-
-
-
-
-
-
     //----------------Open License -----------------------
 //    public List<Object[]> buscarContrato(BigDecimal contrato) {
 //        TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT ID_OPEN_LICENSE, CONTRATO FROM OPEN_LICENSE where CONTRATO = " + contrato);
 //        List<Object[]> results = query.getResultList();
 //        return results;
 //    }
-
-
     public List<Object[]> verificarOpenLicenseVinculado(BigDecimal id) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT  A.ID_OPEN_LICENSE, A.CONTRATO FROM TI_OPEN_LICENSE A, TI_TIPO_LICENSE B WHERE B.ID_OPEN_LICENSE = A.ID_OPEN_LICENSE AND A.ID_OPEN_LICENSE = " + id);
         List<Object[]> results = query.getResultList();
@@ -716,11 +716,7 @@ public class Dao implements Serializable {
     }
 
 //----------------License -----------------------
-
-
     //----------------SERIAL OPEN LICENSE -----------------------
-
-
     public List<Object[]> buscarSerialCadastrado(String serial) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT * FROM TI_SERIAL_OPEN_LICENSE WHERE SERIAL = '" + serial + "'");
         List<Object[]> results = query.getResultList();
@@ -734,9 +730,6 @@ public class Dao implements Serializable {
     }
 
     //----------------SOFTWARE -----------------------
-
-
-
     public List<Object[]> buscarSoftRelacionado(Integer id) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT a.nf  FROM TI_SOFTWARE A, TI_COMPUTADOR_SOFTWARE B WHERE A.ID_SOFTWARE = B.ID_SOFTWARE AND A.ID_SOFTWARE = " + id);
         List<Object[]> results = query.getResultList();
@@ -744,7 +737,6 @@ public class Dao implements Serializable {
     }
 
     //----------------DESCRICAO SERIAL OPEN LICENSE -----------------------
-
 //----------------RECURSOS HUMANOS----------------------- 
     //----------------Treinamento -----------------------
 //    public List<Object[]> buscarTreinamento(Integer idTreinamento) {
@@ -989,7 +981,6 @@ public class Dao implements Serializable {
 //    public List<TreinamentoQualidade> buscarTreinamentoQualidadeOrderAlfabetica() {
 //        return (List<TreinamentoQualidade>) em.createNativeQuery("SELECT * FROM RH_TREINAMENTO_QUALIDADE ORDER BY 2 ", TreinamentoQualidade.class).getResultList();
 //    }
-
     public List<Object[]> buscarTreinamentoOrden() {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT A.AGENDACURS_ID,\n"
                 + "C.DESCR,\n"
@@ -1038,7 +1029,6 @@ public class Dao implements Serializable {
 //        List<Object[]> results = query.getResultList();
 //        return results;
 //    }
-
     public List<Object[]> BuscarFuncaoSGI(BigDecimal funcaoId) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT DISTINCT FUNCAO_ID, NOME_CARGO FROM v_colab WHERE FUNCAO_ID =" + funcaoId);
         List<Object[]> results = query.getResultList();
@@ -1135,7 +1125,6 @@ public class Dao implements Serializable {
     }
 
     //----------------TreinamentoColaborador----------------
-
     public List<Object[]> buscarTurmaExistente2(BigDecimal turma) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT ID_AVALIACAO, COLAB_ID, DATA, NOME_COLAB, NOTA1,NOTA2, NOTA3, TURMA, TRUNC((((NOTA1+NOTA2+NOTA3)/15)*100),2) total FROM RH_AVALIACAO  WHERE TURMA = " + turma + " order by nome_colab");
         List<Object[]> results = query.getResultList();
@@ -1165,7 +1154,6 @@ public class Dao implements Serializable {
         List<Object[]> results = query.getResultList();
         return results;
     }
-
 
     public List<Object[]> buscarColabTreinamentoObrigatorio(BigDecimal matricula, BigDecimal empresa) {
         TypedQuery<Object[]> query = (TypedQuery<Object[]>) em.createNativeQuery("SELECT VC. CD_COLAB,\n"

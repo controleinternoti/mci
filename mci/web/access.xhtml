@@ -15,7 +15,14 @@
         <title>PrimeFaces Ultima</title>
         <h:outputScript name="js/ripple.js" library="ultima-layout" />
     </h:head>
+<script>
 
+setTimeout(function() {
+    window.location.href = "http://127.0.0.1:8084/MCI/login.xhtml";
+}, 3000);
+
+
+</script>
     <h:body styleClass="exception-body accessdenied-page">
     
         <div class="exception-type">
@@ -24,7 +31,7 @@
         
         <div class="card exception-panel">
             <i class="material-icons">&#xE32A;</i>
-            <h1>Access Denied</h1>
+            <h1>Access Denied #{redirecionamentoMB.a}</h1>
             <div class="exception-detail">You are not authorized to access this resource.</div>
             <p:button outcome="/dashboard" value="Homepage" styleClass="secondary"/>
         </div>

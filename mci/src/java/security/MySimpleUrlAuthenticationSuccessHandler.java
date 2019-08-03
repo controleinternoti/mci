@@ -7,6 +7,7 @@ package security;
 
 import java.io.IOException;
 import java.util.Collection;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  */
 public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    private String mac, macap,t;
     protected Log logger = LogFactory.getLog(this.getClass());
  
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -33,15 +35,19 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
     public void onAuthenticationSuccess(HttpServletRequest request, 
       HttpServletResponse response, Authentication authentication)
       throws IOException {
-  
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        System.out.println("===ap--" + request.getParameter("ap"));
+        System.out.println("===id--" + request.getParameter("id"));
+        System.out.println("===t--" + request.getParameter("t"));
+        
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
+        //pegandoParametros();
     }
  
     protected void handle(HttpServletRequest request, 
       HttpServletResponse response, Authentication authentication)
       throws IOException {
-  
         String targetUrl = determineTargetUrl(authentication);
  
         if (response.isCommitted()) {
@@ -50,11 +56,23 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
               + targetUrl);
             return;
         }
- 
+        
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
+      public void pegandoParametros() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //setStart(Integer.valueOf(t));
+         
+        System.out.println("===ap--" + request.getParameter("ap"));
+        System.out.println("===id--" + request.getParameter("id"));
+        System.out.println("===t--" + request.getParameter("t"));
+      }
+      
  
     protected String determineTargetUrl(Authentication authentication) {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //setStart(Integer.valueOf(t));
+        
         boolean isFor = false;
         boolean isAdmin = false;
         Collection<? extends GrantedAuthority> authorities
@@ -70,7 +88,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         }
  
         if (isFor) {
-            return "/sistema/termoAceite.xhtml";
+            return "/sistema/termoAceite.xhtml?ap="+getMacap()+"&id="+getMac()+"&t="+getT();
         } else if (isAdmin) {
             return "/sistema/dashboard.xhtml";
         } else {
@@ -91,6 +109,38 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
     }
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public String getMacap() {
+        return macap;
+    }
+
+    public void setMacap(String macap) {
+        this.macap = macap;
+    }
+
+    public String getT() {
+        return t;
+    }
+
+    public void setT(String t) {
+        this.t = t;
+    }
+
+    public Log getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Log logger) {
+        this.logger = logger;
     }
     
 }
