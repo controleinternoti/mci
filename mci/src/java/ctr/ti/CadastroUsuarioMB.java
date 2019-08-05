@@ -57,7 +57,7 @@ public class CadastroUsuarioMB implements Serializable {
         novo();
         // ips();
         //mac();
-        getRemoteAddress();
+        //getRemoteAddress();
 
     }
 
@@ -80,6 +80,20 @@ public class CadastroUsuarioMB implements Serializable {
             setCpfCadastrado(false);
         }
 
+    }
+    public void gravar(ActionEvent evt) {
+        //dao = new Dao();
+        try {
+            usuario.setPerfil("VISITANTE");
+            dao.gravar(usuario);
+            novo();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("./login.xhtml");
+            FacesUtil.addInfoMessage("Informação", "Cadastro realizado com sucesso!");
+
+        } catch (Exception ex) {
+            FacesUtil.addErrorMessage("Erro", "Entre em contato TI!");
+            ex.printStackTrace();
+        }
     }
 
 
@@ -259,20 +273,7 @@ public class CadastroUsuarioMB implements Serializable {
 //            e.printStackTrace();
 //        }
 //    }
-    public void gravar(ActionEvent evt) {
-        //dao = new Dao();
-        try {
-            usuario.setPerfil("VISITANTE");
-            dao.gravar(usuario);
-            novo();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("./login.xhtml");
-            FacesUtil.addInfoMessage("Informação", "Cadastro realizado com sucesso!");
-
-        } catch (Exception ex) {
-            FacesUtil.addErrorMessage("Erro", "Entre em contato TI!");
-            ex.printStackTrace();
-        }
-    }
+    
 
     public Dao getDao() {
         return dao;

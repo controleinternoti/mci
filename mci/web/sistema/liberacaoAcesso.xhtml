@@ -6,9 +6,7 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">Liberação Acesso</ui:define>
-
     <ui:define name="content"> 
-
         <script type="text/javascript">
             function start() {
                 PF('startButton1').disable();
@@ -22,10 +20,12 @@
 
                     if (newValue === 100) {
                         clearInterval(window['progress']);
+                        
                     }
 
 
-                }, 1000);
+                }, 1300);
+                
             }
 
             function cancel() {
@@ -33,14 +33,47 @@
                 PF('pbClient').setValue(0);
                 PF('startButton1').enable();
             }
+//progressbar
+            setTimeout(function () {
+
+                $('.bar').each(function () {
+                    var me = $(this);
+                    var perc = me.attr("data-percentage");
+
+                    //TODO: left and right text handling
+
+                    var current_perc = 0;
+
+                    var progress = setInterval(function () {
+                        if (current_perc >= perc) {
+                            clearInterval(progress);
+                        } else {
+                            current_perc += 1;
+                            me.css('width', (current_perc) + '%');
+                        }
+
+                        me.text((current_perc) + '%');
+                         if (current_perc === 100) {
+                        window.location.href = "http://www.usinacerradao.com.br/";    
+                    }
+
+                    }, 100);              
+                });
+
+            }, 300);
 
         </script>
 
         <h1>#{acessoMB.user}</h1>
         <div class="card">
             <h1>Por favor, aguarde!!!</h1>
-            <p:progressBar value="80" labelTemplate="{value}%" displayOnly="true"/>
+            
+            <div class="progress progress-success">
+                <div class="bar" style="float: left; width: 0%; " data-percentage="100"></div>
+            </div>
+
         </div>
+
     </ui:define>  
 
 </ui:composition>

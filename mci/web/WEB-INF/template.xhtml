@@ -14,37 +14,57 @@
             <meta name="theme-color" content="#{guestPreferences.setTheme('dark-green')}" />
         </f:facet>
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['ultima-layout:images/favicon.png']}"/>
+         <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" />
         <title>MCI Cerradão</title>
         <h:outputScript name="js/nanoscroller.js" library="ultima-layout" />
         <h:outputScript name="js/layout.js" library="ultima-layout" />
         <h:outputScript name="js/ripple.js" library="ultima-layout" />
         <h:outputScript name="js/swipe.js" library="ultima-layout" />
         <h:outputScript name="js/locale-primefaces.js" library="ultima-layout"/>
+       
         <ui:insert name="head"/>
+        <style>
+            .container {
+                margin-top: 30px;
+                width: 400px;
+            }
+            .progress-success .bar, .progress .bar-success {
+                background-color: #fff;
+                background-image: -moz-linear-gradient(top, #2f4050, #2f4050);
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2f4050), to(#2f4050));
+                background-image: -webkit-linear-gradient(top, #2f4050, #2f4050);
+                background-image: -o-linear-gradient(top, #2f4050, #2f4050);
+                //background-image: linear-gradient(to bottom, #2f4050, #2f4050);
+                background-repeat: repeat-x;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f4050', endColorstr='#2f4050', GradientType=0);
+            }
+
+        </style>
     </h:head>
 
+
     <h:body styleClass="main-body #{guestPreferences.compact ? 'layout-compact' : null}">
-        
+
         <div class="layout-wrapper menu-layout-static menu-layout-horizontal">
             <ui:include src="./topbar.xhtml" />
-            
+
             <div class="layout-main">
                 <ui:insert name="content"/>
-                
+
                 <ui:include src="./footer.xhtml" />
             </div>
         </div>
-        
-        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
-           <f:facet name="start">
-               <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
-           </f:facet>
 
-           <f:facet name="complete">
-               <h:outputText value="" />
-           </f:facet>
-       </p:ajaxStatus>
-        
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+
 
         <h:outputStylesheet name="css/nanoscroller.css" library="ultima-layout" />
         <h:outputStylesheet name="css/animate.css" library="ultima-layout" />

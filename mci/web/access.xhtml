@@ -5,21 +5,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <h:head>
-        <f:facet name="first">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-            <meta name="apple-mobile-web-app-capable" content="yes" />
-        </f:facet>
-        <title>PrimeFaces Ultima</title>
-        <h:outputScript name="js/ripple.js" library="ultima-layout" />
-    </h:head>
+
 <script>
 
 setTimeout(function() {
+    //window.location.href = "http://127.0.0.1:8084/MCI/login.xhtml";
     window.location.href = "http://192.168.1.77:8044/mci/login.xhtml";
-}, 3000);
+}, 1000);
 
 
 </script>
@@ -29,7 +21,7 @@ setTimeout(function() {
             <p:graphicImage name="images/401.svg" library="ultima-layout" />
         </div>
         
-        <div class="card exception-panel">
+        <div style="visibility:hidden" class="card exception-panel">
             <i class="material-icons">&#xE32A;</i>
             <h1>Access Denied #{redirecionamentoMB.a}</h1>
             <div class="exception-detail">You are not authorized to access this resource.</div>
